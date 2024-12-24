@@ -1,0 +1,174 @@
+.transaction-history-container {
+    width: 95%;
+    margin: 0 auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  h2, h3 {
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 5px;
+    margin-bottom: 5px;
+  }
+  
+  .filter-section, .summary, .transactions-list, .chart-container {
+    margin-top: 10px;
+  }
+  
+  .filter-form {
+    padding: 0 15px;
+  }
+  
+  .filter-form h2 {
+    text-align: left;
+    margin-bottom: 15px;
+  }
+  
+  .form-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  
+  .form-group {
+    flex: 1 1 22%;
+    min-width: 180px;
+  }
+  
+  .form-group input,
+  .form-group select {
+    padding: 5px;
+    font-size: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    width: 40%;
+    background-color: #f9f9f9;
+  }
+  
+  .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 15px;
+  }
+  
+  .clear-filters-btn {
+    background-color: #ff4d4d;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  
+  .clear-filters-btn:hover {
+    background-color: #cc0000;
+  }
+  
+  .summary-data {
+    font-size: 16px;
+    line-height: 1.6;
+    display: flex;
+    justify-content: space-between; /* This will ensure the items are spread across the row */
+    align-items: center;
+  
+    gap:  30px;
+
+  }
+  
+  /* .summary-item {
+    flex: 1; 
+  text-align: center; 
+  } */
+  
+  .transactions-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .transactions-table th,
+  .transactions-table td {
+    padding: 12px;
+    text-align: center;
+    border: 1px solid #ddd;
+  }
+  
+  .transactions-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+  }
+  
+  .transactions-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .transactions-table tr:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .profit {
+    color: green;
+  }
+  
+  .loss {
+    color: red;
+  }
+  
+  .chart-container {
+    text-align: center;
+    padding: 15px;
+    border: 1px dashed #ccc;
+    border-radius: 6px;
+    margin-top: 30px;
+    background-color: #fafafa;
+  }
+  
+  .loading {
+    text-align: center;
+    font-size: 18px;
+    color: #007bff;
+  }
+  
+  .error-message {
+    text-align: center;
+    font-size: 18px;
+    color: #d9534f;
+  }
+  
+  .retry-btn {
+    background-color: #f0ad4e;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  
+  .retry-btn:hover {
+    background-color: #ec971f;
+  }
+  
+  .summary-item:first-child {
+    text-align: left;
+  }
+  
+  .summary-item:nth-child(2) {
+    text-align: center;
+  }
+  
+  .summary-item:last-child {
+    text-align: right;
+  }
+  

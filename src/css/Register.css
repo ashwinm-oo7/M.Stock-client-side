@@ -1,0 +1,118 @@
+.register-container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  .spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1); /* Light gray background */
+    border-left-color: #3498db; /* Blue spinner color */
+    border-right-color: #f39c12; /* Gradient effect with orange */
+    border-radius: 50%; /* Make it circular */
+    width: 50px; /* Spinner size */
+    height: 50px; /* Spinner size */
+    animation: spin 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite; /* Smooth spin animation */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add a shadow for depth */
+
+  }
+  .loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.7); /* Light transparent background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; /* Ensure it's above all content */
+  }
+
+  @keyframes spin {
+    0% {
+      transform: translate(-50%, -50%) rotate(0deg);
+    }
+    50% {
+      transform: translate(-50%, -50%) rotate(180deg);
+    }
+    100% {
+      transform: translate(-50%, -50%) rotate(360deg);
+    }
+  }
+  
+  
+  .register-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .form-group-register {
+    margin-bottom: 15px;
+  }
+  
+  .form-group-register label {
+    display: block;
+    margin-bottom: 5px;
+    color: #555;
+  }
+  
+  .form-group-register input {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
+  
+  .form-group-register input:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+  
+  .login-error-message {
+    color: #d9534f;
+    font-size: 12px;
+    margin-top: 5px;
+  }
+  
+  .success-message {
+    color: #5cb85c;
+    text-align: center;
+    margin-top: 15px;
+  }
+  
+  .form-error {
+    color: #d9534f;
+    text-align: center;
+    margin-top: 15px;
+  }
+  
+  .register-button {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    color: white;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .register-button:disabled {
+    background-color: #6c757d;
+    cursor: not-allowed;
+  }
+  
+  .register-button:hover:not(:disabled) {
+    background-color: #0056b3;
+  }
+  

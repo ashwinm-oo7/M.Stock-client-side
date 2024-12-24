@@ -1,0 +1,126 @@
+/* General Page Styling */
+.stock-detail-page {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .pageh1 {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 20px;
+      display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+
+  }
+  
+  h3 {
+    color: #555;
+    font-size: 1.2rem;
+    margin-top: 30px;
+  }
+  
+  .stock-info p {
+    font-size: 1.1rem;
+    color: #333;
+  }
+  
+  .price, .daily-change {
+    font-weight: bold;
+    font-size: 1.2rem;
+  }
+  
+  .price {
+    color: #2ecc71; /* Green for positive price */
+  }
+  
+  .daily-change {
+    color: #e74c3c; /* Red for daily change */
+  }
+  
+  /* Back Button Styling */
+  .back-button {
+    margin-bottom: 20px;
+  }
+  
+  .back-btn {
+    display: flex;
+    align-items: center;
+    font-size: 1.2rem;
+    text-decoration: none;
+    color: #3498db;
+    transition: color 0.3s ease;
+  }
+  
+  .back-btn:hover {
+    color: #2980b9;
+  }
+  
+  .back-btn svg {
+    margin-right: 8px;
+  }
+  
+  /* Stock Performance Section */
+  .stock-performance {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+  }
+  
+  /* Loading and Error Messages */
+  .loading, .error {
+    text-align: center;
+    font-size: 1.2rem;
+    padding: 20px;
+    color: #e74c3c;
+  }
+  
+  .error {
+    color: #c0392b;
+  }
+  
+  .loading {
+    color: #2ecc71;
+  }
+  /* Additional Styles */
+.open, .high, .low, .volume {
+    font-weight: bold;
+    font-size: 1.1rem;
+  }
+  
+  .open {
+    color: #3498db; /* Blue */
+  }
+  
+  .high {
+    color: #2ecc71; /* Green */
+  }
+  
+  .low {
+    color: #e74c3c; /* Red */
+  }
+  
+  .volume {
+    color: #f39c12; /* Yellow */
+  }
+  @media (max-width: 768px) {
+    .stock-title {
+      font-size: 1.6rem;
+    }
+  
+    .stock-info p {
+      font-size: 1rem;
+    }
+  
+    .stock-performance {
+      margin-top: 20px;
+    }
+  }
+  

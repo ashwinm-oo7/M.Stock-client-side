@@ -1,0 +1,316 @@
+/* UserProfile */
+/* Container for the entire component */
+/* User Profile Container */
+.user-profile-container {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+}
+
+/* Profile Image Circle and Edit Icon */
+.profile-picture-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profile-image-wrapper {
+  position: relative;
+}
+
+.profile-image {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ccc;
+}
+
+.edit-icon {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  background-color: rgba(116, 112, 112, 0.5);
+  color: rgb(45, 8, 255);
+  padding: 10px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 25px;
+}
+
+.edit-icon:hover {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+/* Modal for Uploading Image */
+/* .modal {
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+} */
+/* 
+.modal-content {
+  position: absolute;
+  top: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 500px;
+}
+ */
+
+
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+  position: relative;
+
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+
+.preview-section, .crop-section, .action-buttons {
+  margin-top: 20px;
+}
+
+.preview-image {
+  width: 100%;
+  max-width: 300px;
+}
+
+.crop-button, .upload-button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.upload-button {
+  width: 100%;
+}
+
+.image-upload-container {
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.h1 {
+  color: #333;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+/* Dropzone area where users upload the image */
+.dropzone {
+  border: 2px dashed #007bff;
+  padding: 2px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 18px;
+  color: #007bff;
+  border-radius: 8px;
+}
+
+.dropzone:hover {
+  background-color: #f0f8ff;
+}
+
+.preview-section, .crop-section, .cropped-preview-section {
+  margin-top: 20px;
+}
+
+/* Styling the preview image */
+.preview-image {
+  max-width: 150px;
+  max-height: 150px;
+  border-radius: 8px;
+  margin-top: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Crop button styling */
+.crop-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.crop-button:hover {
+  background-color: #0056b3;
+}
+
+/* Upload button styling */
+.upload-button {
+  padding: 12px 25px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #28a745;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: background-color 0.3s ease;
+}
+
+.upload-button:hover {
+  background-color: #218838;
+}
+/* Updated styles */
+.user-details-section {
+  margin: 20px 0;
+}
+
+.user-details-section label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+
+}
+
+.user-details-section input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+
+}
+
+.update-details-btn {
+  padding: 10px 20px;
+  color: white;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.userdisabled{
+  background-color: #b1b7be;
+  cursor: not-allowed !important;
+
+}
+.update-details-btn:hover:not(.userdisabled) {
+  background-color: #0056b3;
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+  .image-upload-container {
+    width: 90%;
+    padding: 15px;
+  }
+
+  .dropzone {
+    padding: 30px;
+  }
+
+  .crop-button, .upload-button {
+    width: 100%;
+  }
+}
+
+/* Toggle Container */
+.toggle-container {
+  display: inline-block;
+  width: 60px;
+  height: 30px;
+  background-color: #ccc;
+  border-radius: 15px;
+  position: relative;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Active State */
+.toggle-container .toggle-slider.active {
+  background-color: #4caf50;
+}
+
+/* Slider Background */
+.toggle-slider {
+  width: 100%;
+  height: 100%;
+  border-radius: 15px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #ccc;
+  transition: background-color 0.3s ease;
+}
+
+/* Knob */
+.toggle-knob {
+  width: 26px;
+  height: 26px;
+  background-color: white;
+  border-radius: 50%;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  transition: transform 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Move Knob to the Right in Active State */
+.toggle-slider.active .toggle-knob {
+  transform: translateX(30px); /* Move knob across the width of the toggle */
+}
+
+/* Wrapper to align text and toggle */
+.toggle-wrapper {
+  display: flex;
+  align-items: center; /* Vertically align items */
+  gap: 10px; /* Add spacing between text and toggle */
+}
+
+/* Optional: Adjust the font size for strong element */
+.toggle-text {
+  font-size: 20px;
+}
