@@ -18,7 +18,7 @@ const Header = () => {
   return (
     <header className="header">
       <div className="logo">
-        <Link to="/">Stock Tracker</Link>
+        <Link to="/">StockTracker</Link>
       </div>
       <nav className="nav">
         <ul>
@@ -31,7 +31,7 @@ const Header = () => {
                 <Link to="/transactions">Transaction</Link>
               </li>
               <li>
-                <Link to="/portfolio">My Portfolio</Link>
+                <Link to="/portfolio">MyPortfolio</Link>
               </li>
               <li>
                 <button
