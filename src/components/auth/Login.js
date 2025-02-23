@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../../css/Login.css";
@@ -16,9 +16,21 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [isOtpSent, setIsOtpSent] = useState(false); // To track if OTP is sent
-
+  const [timeLeft, setTimeLeft] = useState(60);
+  const [canResendOtp, setCanResendOtp] = useState(false);
   const navigate = useNavigate();
   const apiUrl = process.env.REACT_APP_API_URL;
+
+  useEffect(() => {
+    if (isOtpSent && timeLeft > 0) {
+      const timer = setInterval(() => {
+        setTimeLeft((prev) => prev - 1);
+      }, 1000);
+      return () => clearInterval(timer);
+    } else if (timeLeft === 0) {
+      setCanResendOtp(true); // Allow OTP resend only when the timer hits 0
+    }
+  }, [isOtpSent, timeLeft]);
 
   // Form validation function
   const validateForm = () => {
@@ -58,6 +70,8 @@ const Login = () => {
       console.log(response);
       if (response.status === 200 && response.data) {
         setIsOtpSent(true); // OTP has been sent
+        setTimeLeft(60);
+        setCanResendOtp(false); // Reset resend OTP option
 
         // const { token, user } = response.data;
         // localStorage.setItem("authToken", token); // Store token in local storage
@@ -87,7 +101,10 @@ const Login = () => {
   };
   const handleOtpVerification = async (e) => {
     e.preventDefault();
-
+    if (timeLeft <= 0) {
+      setErrorMessage("OTP has expired. Please request a new one.");
+      return;
+    }
     try {
       setLoading(true);
       setErrorMessage("");
@@ -98,7 +115,7 @@ const Login = () => {
       });
       console.log(response);
       if (response.status === 200 && response.data) {
-        setIsOtpSent(true); // OTP has been sent
+        // setIsOtpSent(true);
 
         const { token, user } = response.data;
         localStorage.setItem("authToken", token); // Store token in local storage
@@ -170,12 +187,29 @@ const Login = () => {
               onChange={handleInputChange}
               placeholder="Enter OTP"
             />
+
+            <p style={{ color: "orangered" }} className="timer">
+              Time left: {Math.floor(timeLeft / 60)}:
+              {(timeLeft % 60).toString().padStart(2, "0")} min
+            </p>
           </div>
+          {errorMessage && <p className="form-error">{errorMessage}</p>}
           <div className="form-group-login">
             <button className="login-button" type="submit" disabled={loading}>
-              {loading ? "Verify OTP..." : "Verify OTP"}
+              {loading ? "Verifying..." : "Verify OTP"}
             </button>
           </div>
+          {canResendOtp && (
+            <div className="form-group-login">
+              <button
+                className="resend-otp-button"
+                onClick={handleLogin}
+                disabled={loading}
+              >
+                {loading ? "Resending..." : "Resend OTP"}
+              </button>
+            </div>
+          )}
         </form>
       )}
       <p className="register-link">
