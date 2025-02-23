@@ -1,6 +1,5 @@
 // src/components/portfolio/TrackStockPerformance.js
 import React, { useState, useEffect } from "react";
-import { trackStockPerformance } from "../../services/apiPort";
 import axios from "axios";
 
 const TrackStockPerformance = ({ userId, stockId }) => {

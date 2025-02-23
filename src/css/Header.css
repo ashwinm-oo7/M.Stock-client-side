@@ -71,3 +71,52 @@
   border: 2px solid #ccc;
   text-transform: uppercase;
 }
+
+@media screen and (max-width: 768px) {
+  .header {
+    flex-direction: row; /* Keep items in a single line */
+    justify-content: space-between; /* Maintain space between items */
+    align-items: center;
+    padding: 10px 20px;
+  }
+
+  .logo a {
+    font-size: 15px;
+    margin-right: 5px; /* Adjust space between logo and navigation */
+  }
+
+  .nav ul {
+    display: flex;
+    flex-direction: row; /* Keep nav items in a row */
+    align-items: center;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav li {
+    margin: 0 5px;
+  }
+
+  .nav a {
+    font-size: 10px;
+    padding: 8px 12px;
+  }
+
+  .logout-button {
+    padding: 10px 15px;
+    font-size: 16px;
+    margin-left: 15px; /* Space between nav and logout button */
+  }
+
+  .user-profile {
+    display: flex;
+    align-items: center;
+    margin-left: 15px; /* Space between logout button and profile */
+  }
+
+  .profile-pic, .profile-placeholder1 {
+    width: 40px;
+    height: 40px;
+    margin-left: 10px; /* Space between profile and other components */
+  }
+}

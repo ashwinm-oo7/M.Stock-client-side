@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 // import { useUser } from "../context/UserContext"; // Make sure to import the hook
 import "../css/Header.css"; // Custom CSS for styling the header
+import axios from "axios";
 
 const Header = () => {
+  const [error, setError] = useState(""); // Error message state
+  const [isAdmin, setIsAdmin] = useState("False"); // Error message state
+
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("user")); // Parse the string into an object
   console.log(user);
@@ -14,11 +18,40 @@ const Header = () => {
     localStorage.removeItem("userId");
     navigate("/login"); // Redirect to login page
   };
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
 
+    if (storedUser) {
+      const parsedUser = JSON.parse(storedUser);
+      if (parsedUser && parsedUser._id) {
+        fetchUserProfile(parsedUser._id);
+      }
+    }
+  }, []);
+
+  const fetchUserProfile = async (id) => {
+    if (!id) {
+      return;
+    }
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}/users/user-profile/${id}`
+      );
+      console.log(response);
+      const data = response.data;
+      if (data.success) {
+        setIsAdmin(data?.user?.isAdmin);
+      } else {
+        alert("Failed to fetch user profile");
+      }
+    } catch (err) {
+      setError("Error fetching user profile");
+    }
+  };
   return (
     <header className="header">
       <div className="logo">
-        <Link to="/">Stock Tracker</Link>
+        <Link to="/">UpStock</Link>
       </div>
       <nav className="nav">
         <ul>
@@ -27,11 +60,16 @@ const Header = () => {
           </li>
           {user ? (
             <>
+              {isAdmin && (
+                <li>
+                  <Link to="/add-data-stocks">AddStock</Link>
+                </li>
+              )}
               <li>
                 <Link to="/transactions">Transaction</Link>
               </li>
               <li>
-                <Link to="/portfolio">My Portfolio</Link>
+                <Link to="/portfolio">MyPortfolio</Link>
               </li>
               <li>
                 <button

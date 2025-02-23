@@ -5,9 +5,9 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const ForgotPassword = () => {
-  const [identifier, setIdentifier] = useState(""); // For both email and mobile
+  const [identifier, setIdentifier] = useState(""); // For both identifier and mobile
 
-  const [email, setEmail] = useState("");
+  // const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
   const [otpExpiry, setOtpExpiry] = useState("");
 
@@ -57,10 +57,10 @@ const ForgotPassword = () => {
 
     if (step === 1) {
       // Validation for Step 1: Email
-      if (!email.trim()) {
-        newErrors.email = "Email is required.";
-      } else if (!/\S+@\S+\.\S+/.test(email)) {
-        newErrors.email = "Invalid email format.";
+      if (!identifier.trim()) {
+        newErrors.identifier = "Email or Number is required.";
+      } else if (!/\S+@\S+\.\S+/.test(identifier)) {
+        // newErrors.identifier = "Invalid identifier format.";
       }
     }
 
@@ -92,7 +92,7 @@ const ForgotPassword = () => {
     const mobileRegex = /^\d{10}$/;
 
     if (emailRegex.test(input)) {
-      return "email"; // Valid email
+      return "email"; // Valid identifier
     } else if (mobileRegex.test(input)) {
       return "mobile"; // Valid mobile number
     } else {
@@ -102,19 +102,19 @@ const ForgotPassword = () => {
 
   const handleSendOtp = async (e) => {
     e.preventDefault();
-    // if (!email.trim()) {
+    // if (!identifier.trim()) {
     //   setErrorMessage("Email is required.");
     //   return;
     // }
-    // if (!/\S+@\S+\.\S+/.test(email)) {
-    //   setErrorMessage("Invalid email format.");
+    // if (!/\S+@\S+\.\S+/.test(identifier)) {
+    //   setErrorMessage("Invalid identifier format.");
     //   return;
     // }
     const validationType = validateIdentifier(identifier);
     console.log(validationType === null);
     if (validationType === null) {
       setErrorMessage({
-        identifier: "Enter a valid email or 10-digit mobile number.",
+        identifier: "Enter a valid identifier or 10-digit mobile number.",
       });
       return;
     }
@@ -143,7 +143,7 @@ const ForgotPassword = () => {
         // setOtpExpiry(Date.now() + 5 * 60 * 100);
         setStep(2);
         setLoading(false);
-        setSuccessMessage("OTP sent to your email.", data.message);
+        setSuccessMessage("OTP sent to your identifier.", data.message);
       } else {
         setErrorMessage({ identifier: data.message });
       }
@@ -161,6 +161,14 @@ const ForgotPassword = () => {
       setErrorMessage({ otp: "OTP has expired. Please request a new one." });
       return;
     }
+    const validationType = validateIdentifier(identifier);
+    console.log(validationType === null);
+    if (validationType === null) {
+      setErrorMessage({
+        identifier: "Enter a valid identifier or 10-digit mobile number.",
+      });
+      return;
+    }
 
     try {
       setLoading(true);
@@ -168,7 +176,7 @@ const ForgotPassword = () => {
       setSuccessMessage("");
 
       const response = await axios.post(`${apiUrl}/users/change-password`, {
-        email,
+        [validationType]: identifier,
         otp,
         newPassword,
       });
@@ -199,11 +207,11 @@ const ForgotPassword = () => {
         <div className="form-group-login">
           <label>Enter Email or Mobile Number:</label>
           <input
-            name="email"
+            name="identifier"
             type="text"
             value={identifier}
             onChange={(e) => setIdentifier(e.target.value)}
-            placeholder="Enter your email or mobile number"
+            placeholder="Enter your identifier or mobile number"
           />
           {errorMessage.identifier && (
             <p className="error-message">{errorMessage.identifier}</p>

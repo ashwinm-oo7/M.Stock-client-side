@@ -172,3 +172,66 @@
     text-align: right;
   }
   
+  @media screen and (max-width: 768px) {
+    .transaction-history-container {
+      width: 95%;
+      padding: 10px;
+    }
+  
+    .card {
+      margin-bottom: 10px;
+    }
+  
+    .filter-form h2 {
+      font-size: 15px;
+    }
+  
+    .form-row {
+      flex-direction: column;
+      gap: 5px;
+    }
+  
+    .form-group {
+      flex: 1 1 100%;
+      min-width: 100%;
+    }
+  
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 5px;
+      font-size: 12px;
+    }
+  
+    .form-actions {
+      justify-content: center;
+      width: 100%;
+    }
+  
+    .clear-filters-btn {
+      width: 100%;
+    }
+  
+    .summary-data {
+      font-size: 12px;
+      flex-direction: row;
+      gap: 5px;
+      align-items: center;
+    }
+  
+    .transactions-table th,
+    .transactions-table td {
+      font-size: 14px;
+      padding: 10px;
+    }
+  
+    .chart-container {
+      padding: 15px;
+      margin-top: 20px;
+    }
+  
+    .retry-btn {
+      width: 100%;
+    }
+  }
+  

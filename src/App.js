@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
 import PortfolioDashboard from "./components/portfolio/PortfolioDashboard";
 import AddStock from "./components/portfolio/AddStock";
@@ -14,6 +14,7 @@ import AddMoney from "./components/auth/AddMoney.js";
 import ForgotPassword from "./components/auth/ForgotPassword.js";
 import NotFound from "./context/NotFound.js";
 import UserProfile from "./components/auth/UserProfile.js";
+import StockAddingBackend from "./components/stocks/StockAddingBackend.js";
 const App = () => {
   return (
     <Router>
@@ -42,6 +43,7 @@ const App = () => {
         <Route path="/add-money-wallet" element={<AddMoney />} />{" "}
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/user-profile" element={<UserProfile />} />
+        <Route path="/add-data-stocks" element={<StockAddingBackend />} />
       </Routes>
     </Router>
   );

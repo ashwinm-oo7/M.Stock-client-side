@@ -12,6 +12,7 @@
     "cropperjs": "^1.6.2",
     "date-fns": "^4.1.0",
     "fabric": "^6.5.3",
+    "lightweight-charts": "^5.0.2",
     "moment": "^2.30.1",
     "react": "^18.3.1",
     "react-chartjs-2": "^5.2.0",

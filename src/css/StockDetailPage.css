@@ -1,126 +1,187 @@
 /* General Page Styling */
 .stock-detail-page {
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-  
-  .pageh1 {
-    font-size: 2rem;
-    color: #333;
-    margin-bottom: 20px;
-      display: flex;
+  padding: 20px;
+  background: #f4f6f9;
+  border-radius: 10px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  max-width: 1200px;
+  margin: auto;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Stock Title */
+.pageh1 {
+  font-size: 2.2rem;
+  color: #333;
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 25px;
+}
+
+/* Stock Information Section */
+.stock-info {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.stock-info p {
+  font-size: 1.1rem;
+  color: #333;
+  flex: 1 1 45%;
+  margin: 10px 0;
+}
+
+/* Price & Change Colors */
+.price, .daily-change {
+  font-weight: bold;
+  font-size: 1.3rem;
+}
+
+.price {
+  color: #2ecc71; /* Green */
+}
+
+.daily-change {
+  color: #e74c3c; /* Red */
+}
+
+/* Back Button Styling */
+.back-button {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  font-size: 1.2rem;
+  text-decoration: none;
+  color: #3498db;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.back-btn:hover {
+  color: #2980b9;
+}
+
+.back-btn svg {
+  margin-right: 8px;
+}
+
+/* Tabs Styling */
+.tabs {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.tabs button {
+  padding: 12px 20px;
+  border: none;
+  background: #ddd;
+  font-size: 1rem;
+  cursor: pointer;
+  margin: 5px;
+  border-radius: 6px;
+  transition: background 0.3s ease, transform 0.2s;
+}
+
+.tabs button.active {
+  background: #3498db;
+  color: white;
+  font-weight: bold;
+}
+
+.tabs button:hover {
+  background: #2980b9;
+  color: white;
+  transform: translateY(-2px);
+}
+
+/* Stock Performance Section */
+.stock-performance {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Chart Container */
+.chart-container {
+  display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 20px;
+  min-height: 400px;
+}
 
-  }
-  
-  h3 {
-    color: #555;
-    font-size: 1.2rem;
-    margin-top: 30px;
-  }
-  
-  .stock-info p {
-    font-size: 1.1rem;
-    color: #333;
-  }
-  
-  .price, .daily-change {
-    font-weight: bold;
-    font-size: 1.2rem;
-  }
-  
-  .price {
-    color: #2ecc71; /* Green for positive price */
-  }
-  
-  .daily-change {
-    color: #e74c3c; /* Red for daily change */
-  }
-  
-  /* Back Button Styling */
-  .back-button {
-    margin-bottom: 20px;
-  }
-  
-  .back-btn {
-    display: flex;
-    align-items: center;
-    font-size: 1.2rem;
-    text-decoration: none;
-    color: #3498db;
-    transition: color 0.3s ease;
-  }
-  
-  .back-btn:hover {
-    color: #2980b9;
-  }
-  
-  .back-btn svg {
-    margin-right: 8px;
-  }
-  
-  /* Stock Performance Section */
-  .stock-performance {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    margin-top: 20px;
-  }
-  
-  /* Loading and Error Messages */
-  .loading, .error {
-    text-align: center;
-    font-size: 1.2rem;
-    padding: 20px;
-    color: #e74c3c;
-  }
-  
-  .error {
-    color: #c0392b;
-  }
-  
-  .loading {
-    color: #2ecc71;
-  }
-  /* Additional Styles */
+/* Loading & Error Messages */
+.loading, .error {
+  text-align: center;
+  font-size: 1.2rem;
+  padding: 20px;
+  font-weight: bold;
+}
+
+.loading {
+  color: #2ecc71;
+}
+
+.error {
+  color: #c0392b;
+}
+
+/* Open, High, Low, Volume Styling */
 .open, .high, .low, .volume {
-    font-weight: bold;
-    font-size: 1.1rem;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.open {
+  color: #3498db;
+}
+
+.high {
+  color: #2ecc71;
+}
+
+.low {
+  color: #e74c3c;
+}
+
+.volume {
+  color: #f39c12;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .stock-title {
+      font-size: 1.8rem;
   }
-  
-  .open {
-    color: #3498db; /* Blue */
+
+  .stock-info {
+      flex-direction: column;
+      align-items: center;
   }
-  
-  .high {
-    color: #2ecc71; /* Green */
+
+  .stock-info p {
+      flex: 1 1 100%;
+      text-align: center;
   }
-  
-  .low {
-    color: #e74c3c; /* Red */
+
+  .tabs {
+      flex-direction: column;
+      align-items: center;
   }
-  
-  .volume {
-    color: #f39c12; /* Yellow */
+
+  .tabs button {
+      width: 90%;
   }
-  @media (max-width: 768px) {
-    .stock-title {
-      font-size: 1.6rem;
-    }
-  
-    .stock-info p {
-      font-size: 1rem;
-    }
-  
-    .stock-performance {
-      margin-top: 20px;
-    }
-  }
-  
+}

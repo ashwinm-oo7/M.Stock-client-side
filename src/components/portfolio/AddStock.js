@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import axios from "axios";
 import "../../css/AddStock.css"; // Custom CSS for the component
 import StockHistory from "../stocks/StockHistory";
+import Pagination from "../Pagination/Pagination";
 
 const AddStock = () => {
   const location = useLocation();
@@ -14,7 +15,7 @@ const AddStock = () => {
   const [loadings, setLoadings] = useState(false);
   const [priceHistory, setPriceHistory] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [recordsPerPage] = useState(10); // Number of records to show per page
+  const [recordsPerPage, setRecordPerPage] = useState(10); // Number of records to show per page
 
   useEffect(() => {
     const fetchPriceHistory = async () => {
@@ -34,6 +35,8 @@ const AddStock = () => {
   }, [stockId]);
 
   const handleAddStock = async () => {
+    setError("");
+    setSuccess("");
     if (!quantity || isNaN(quantity) || quantity <= 0) {
       setError("Please enter a valid quantity greater than 0.");
       return;
@@ -63,6 +66,7 @@ const AddStock = () => {
 
       if (response.status === 201) {
         setSuccess("Stock added successfully to your portfolio!");
+        setQuantity("");
       } else {
         throw new Error("Unexpected response from the server.");
       }
@@ -80,7 +84,10 @@ const AddStock = () => {
       setLoading(false);
     }
   };
-  const handleBuyStock = async () => {
+  const handleSellStock = async () => {
+    setError("");
+    setSuccess("");
+
     if (!quantity || isNaN(quantity) || quantity <= 0) {
       setError("Please enter a valid quantity greater than 0.");
       return;
@@ -136,7 +143,11 @@ const AddStock = () => {
   );
 
   // Handle page change
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const totalPages = Math.ceil(priceHistory.length / recordsPerPage);
+  const handleItemsPerPageChange = (e) => {
+    setRecordPerPage(Number(e.target.value));
+    setCurrentPage(1);
+  };
 
   return (
     <div className="add-stock-container">
@@ -171,7 +182,7 @@ const AddStock = () => {
       </button>
       <br />
       <button
-        onClick={handleBuyStock}
+        onClick={handleSellStock}
         className="btn btn-primary"
         disabled={loading}
       >
@@ -204,18 +215,18 @@ const AddStock = () => {
             No price history available for this stock.
           </p>
         )}
-        <div>
-          {Array.from(
-            { length: Math.ceil(priceHistory.length / recordsPerPage) },
-            (_, index) => (
-              <button key={index + 1} onClick={() => paginate(index + 1)}>
-                {index + 1}
-              </button>
-            )
-          )}
-        </div>
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          indexOfFirstItem={indexOfFirstRecord}
+          indexOfLastItem={indexOfLastRecord}
+          setResponseValue={priceHistory}
+          itemsPerPage={recordsPerPage}
+          setCurrentPage={setCurrentPage}
+          handleItemsPerPageChange={handleItemsPerPageChange}
+        />
       </div>
-      <StockHistory symbol={symbol} />
+      {/* <StockHistory symbol={symbol} /> */}
     </div>
   );
 };

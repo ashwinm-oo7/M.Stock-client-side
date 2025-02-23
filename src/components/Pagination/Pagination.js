@@ -68,6 +68,7 @@ const Pagination = ({
           onClick={() => setCurrentPage(currentPage - 1)}
           disabled={currentPage === 1}
           className={currentPage === 1 ? "disabled" : "pagination-button"}
+          title={currentPage - 1 + " is Prev Page"}
         >
           {"<<"}
         </button>
@@ -93,6 +94,7 @@ const Pagination = ({
               ? "disabled"
               : "pagination-button"
           }
+          title={currentPage + 1 + " is Next Page"}
         >
           {">>"}
         </button>

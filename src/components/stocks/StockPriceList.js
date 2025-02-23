@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { FaDollarSign } from "react-icons/fa";
 import { FiRefreshCcw } from "react-icons/fi";
 import "../../css/StockPriceList.css";
+import Pagination from "../Pagination/Pagination";
 
 const StockPriceList = () => {
   const [stocks, setStocks] = useState([]); // All stocks
@@ -12,7 +13,7 @@ const StockPriceList = () => {
   const [error, setError] = useState("");
   const [searchTerm, setSearchTerm] = useState(""); // Search input
   const [currentPage, setCurrentPage] = useState(1);
-  const stocksPerPage = 20; // Change this for more/less stocks per page
+  const [stocksPerPage, setStocksPerPage] = useState(20);
 
   const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -68,30 +69,14 @@ const StockPriceList = () => {
     indexOfLastStock
   );
   const totalPages = Math.ceil(filteredStocks.length / stocksPerPage);
-  const maxPageNumbers = 5; // Show 5 page numbers at a time
 
   // Change Page
-  const getPageNumbers = () => {
-    let startPage = Math.max(1, currentPage - Math.floor(maxPageNumbers / 2));
-    let endPage = Math.min(totalPages, startPage + maxPageNumbers - 1);
-
-    // Adjust startPage if near the end
-    if (totalPages > maxPageNumbers && endPage === totalPages) {
-      startPage = totalPages - maxPageNumbers + 1;
-    }
-
-    return Array.from(
-      { length: endPage - startPage + 1 },
-      (_, i) => startPage + i
-    );
+  const handleItemsPerPageChange = (e) => {
+    setStocksPerPage(Number(e.target.value));
+    setCurrentPage(1); // Reset to first page when changing items per page
   };
 
   // Change Page
-  const paginate = (pageNumber) => {
-    if (pageNumber >= 1 && pageNumber <= totalPages) {
-      setCurrentPage(pageNumber);
-    }
-  };
 
   if (loading) return <div className="loading">Loading stocks...</div>;
   if (error) return <div className="error">{error}</div>;
@@ -149,33 +134,16 @@ const StockPriceList = () => {
         ))}
       </div>
       {/* Pagination */}
-      <div className="pagination">
-        {currentPage > 1 && (
-          <button
-            onClick={() => paginate(1)}
-            className="page-btn"
-            title="first record"
-          >{`<<`}</button>
-        )}
-
-        {getPageNumbers().map((number) => (
-          <button
-            key={number}
-            onClick={() => paginate(number)}
-            className={`page-btn ${currentPage === number ? "active" : ""}`}
-          >
-            {number}
-          </button>
-        ))}
-
-        {currentPage < totalPages && (
-          <button
-            onClick={() => paginate(totalPages)}
-            className="page-btn"
-            title="last record"
-          >{`>>`}</button>
-        )}
-      </div>
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        indexOfFirstItem={indexOfFirstStock}
+        indexOfLastItem={indexOfLastStock}
+        setResponseValue={filteredStocks}
+        itemsPerPage={stocksPerPage}
+        setCurrentPage={setCurrentPage}
+        handleItemsPerPageChange={handleItemsPerPageChange}
+      />
     </div>
   );
 };

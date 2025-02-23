@@ -128,6 +128,6 @@
   transition: background-color 0.3s ease;
 }
 
-.add-money-button:hover {
+.btn-primary:hover {
   background-color: #0056b3;
 }

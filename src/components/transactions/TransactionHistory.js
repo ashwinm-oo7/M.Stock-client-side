@@ -1,6 +1,16 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../../css/TransactionHistory.css"; // External CSS for better styling
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  Tooltip,
+  CartesianGrid,
+  ResponsiveContainer,
+  Legend,
+} from "recharts";
 
 import Pagination from "../Pagination/Pagination.js";
 const TransactionHistory = () => {
@@ -51,6 +61,28 @@ const TransactionHistory = () => {
       ...prevFilters,
       [e.target.name]: e.target.value,
     }));
+  };
+  const formatChartData = () => {
+    if (!transactions || transactions.length === 0) return [];
+
+    // Group transactions by date
+    const dataMap = transactions.reduce((acc, transaction) => {
+      const date = new Date(transaction.date).toLocaleDateString();
+      if (!acc[date]) {
+        acc[date] = { date, buy: 0, sell: 0 };
+      }
+      if (transaction.type === "buy") {
+        acc[date].buy += transaction.quantity * transaction.price;
+      } else {
+        acc[date].sell += transaction.quantity * transaction.price;
+      }
+      return acc;
+    }, {});
+
+    // Convert object to array and sort by date
+    return Object.values(dataMap).sort(
+      (a, b) => new Date(a.date) - new Date(b.date)
+    );
   };
 
   const handleClearFilters = () => {
@@ -200,12 +232,43 @@ const TransactionHistory = () => {
           </div>
           {/* Chart Section */}
           <div className="chart-container">
-            <h3>Transaction Trend</h3>
-            <p>
-              Graphical representation of your buy/sell trends over time can be
-              shown here.
-            </p>
+            {transactions.length > 0 ? (
+              <ResponsiveContainer width="100%" height={300}>
+                <h3>Transaction Trend</h3>
+                <p>
+                  Graphical representation of your buy/sell trends over time can
+                  be shown here.
+                </p>
+                <LineChart data={formatChartData()}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="date" />
+                  <YAxis />
+                  <Tooltip /> <Legend />
+                  <Line
+                    type="monotone"
+                    dataKey="buy"
+                    stroke="#4CAF50"
+                    name="Buy Value"
+                    strokeWidth={2}
+                    dot={{ r: 4 }} // Small dots at each data point
+                    activeDot={{ r: 6 }}
+                  />
+                  <Line
+                    type="monotone"
+                    dataKey="sell"
+                    stroke="#FF5733"
+                    name="Sell Value"
+                    strokeWidth={2}
+                    dot={{ r: 4 }}
+                    activeDot={{ r: 6 }}
+                  />
+                </LineChart>
+              </ResponsiveContainer>
+            ) : (
+              <p>No transaction data available for visualization.</p>
+            )}
           </div>
+          <br />
           <Pagination
             currentPage={currentPage}
             totalPages={totalPages}

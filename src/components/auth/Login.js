@@ -59,12 +59,12 @@ const Login = () => {
       if (response.status === 200 && response.data) {
         setIsOtpSent(true); // OTP has been sent
 
-        const { token, user } = response.data;
-        localStorage.setItem("authToken", token); // Store token in local storage
+        // const { token, user } = response.data;
+        // localStorage.setItem("authToken", token); // Store token in local storage
 
-        // navigate("/");
-        localStorage.setItem("user", JSON.stringify(user)); // Optionally store user info
-        localStorage.setItem("userId", user._id);
+        // // navigate("/");
+        // localStorage.setItem("user", JSON.stringify(user)); // Optionally store user info
+        // localStorage.setItem("userId", user._id);
         // sessionStorage.setItem("user", JSON.stringify(user));
 
         // Get the stored redirect URL
@@ -96,10 +96,21 @@ const Login = () => {
         email: formData.email,
         otp: formData.otp,
       });
+      console.log(response);
+      if (response.status === 200 && response.data) {
+        setIsOtpSent(true); // OTP has been sent
 
-      if (response.status === 200) {
-        localStorage.setItem("authToken", response.data.token);
+        const { token, user } = response.data;
+        localStorage.setItem("authToken", token); // Store token in local storage
+
+        // navigate("/");
+        localStorage.setItem("user", JSON.stringify(user)); // Optionally store user info
+        localStorage.setItem("userId", user._id);
         navigate("/");
+        // if (response.status === 200) {
+        //   localStorage.setItem("authToken", response.data.token);
+        //   navigate("/");
+        // }
       }
     } catch (error) {
       setErrorMessage(
