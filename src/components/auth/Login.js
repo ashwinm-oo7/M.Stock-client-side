@@ -194,11 +194,13 @@ const Login = () => {
             </p>
           </div>
           {errorMessage && <p className="form-error">{errorMessage}</p>}
-          <div className="form-group-login">
-            <button className="login-button" type="submit" disabled={loading}>
-              {loading ? "Verifying..." : "Verify OTP"}
-            </button>
-          </div>
+          {!canResendOtp && (
+            <div className="form-group-login">
+              <button className="login-button" type="submit" disabled={loading}>
+                {loading ? "Verifying..." : "Verify OTP"}
+              </button>
+            </div>
+          )}
           {canResendOtp && (
             <div className="form-group-login">
               <button
