@@ -2,54 +2,32 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 // import { useUser } from "../context/UserContext"; // Make sure to import the hook
 import "../css/Header.css"; // Custom CSS for styling the header
-import axios from "axios";
 
-const Header = () => {
+const Header = ({ isAdmins, profilepic }) => {
   // const [error, setError] = useState("");
-  const [isAdmin, setIsAdmin] = useState("False"); // Error message state
+  const [isAdmin, setIsAdmin] = useState(false); // Error message state
   const [pics, setPics] = useState("");
   const navigate = useNavigate();
-  const user = JSON.parse(localStorage.getItem("user"));
+  const user = JSON.parse(localStorage.getItem("user")) || null;
 
-  console.log(user);
-  // Handle logout
   const handleLogout = () => {
-    localStorage.removeItem("authToken"); // Remove token from storage
-    localStorage.removeItem("user");
-    localStorage.removeItem("userId");
-    navigate("/login"); // Redirect to login page
-  };
-  useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-
-    if (storedUser) {
-      const parsedUser = JSON.parse(storedUser);
-      if (parsedUser && parsedUser._id) {
-        fetchUserProfile(parsedUser._id);
-      }
+    try {
+      localStorage.clear(); // Securely clear all sensitive user data
+      navigate("/login");
+    } catch (error) {
+      console.error("Logout failed:", error);
     }
+  };
+
+  useEffect(() => {
+    if (user && user._id) {
+      // fetchUserProfile(user._id);
+      setIsAdmin(() => isAdmins); // ✅ Ensures correct state update
+      setPics(profilepic);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const fetchUserProfile = async (id) => {
-    if (!id) {
-      return;
-    }
-    try {
-      const response = await axios.get(
-        `${process.env.REACT_APP_API_URL}/users/user-profile/${id}`
-      );
-      console.log(response);
-      const data = response.data;
-      if (data.success) {
-        setIsAdmin(data?.user?.isAdmin);
-        setPics(data?.user?.profilePicBase64);
-      } else {
-        alert("Failed to fetch user profile");
-      }
-    } catch (err) {
-      console.error("Error fetching user profile");
-    }
-  };
   return (
     <header className="header">
       <div className="logo">
@@ -60,13 +38,13 @@ const Header = () => {
           <li>
             <Link to="/">Home</Link>
           </li>
+          {isAdmin && (
+            <li>
+              <Link to="/add-data-stocks">AddStock</Link>
+            </li>
+          )}
           {user ? (
             <>
-              {isAdmin && (
-                <li>
-                  <Link to="/add-data-stocks">AddStock</Link>
-                </li>
-              )}
               <li>
                 <Link to="/transactions">Transaction</Link>
               </li>
@@ -84,7 +62,7 @@ const Header = () => {
               </li>
               <li className="user-profile">
                 <Link to="/user-profile" title="Profile">
-                  {user.profilePic ? (
+                  {pics ? (
                     <img
                       src={pics || null} // Profile picture URL
                       alt="Profile"

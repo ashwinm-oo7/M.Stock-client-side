@@ -17,12 +17,35 @@ const StockPriceList = () => {
 
   const apiUrl = process.env.REACT_APP_API_URL;
 
+  // useEffect(() => {
+  //   const fetchStocks = async () => {
+  //     try {
+  //       const response = await axios.get(`${apiUrl}/stocks/getAllStockDetails`);
+  //       setStocks(response.data);
+  //       setFilteredStocks(response.data);
+  //       setLoading(false);
+  //     } catch (err) {
+  //       setError("Error fetching stocks. Please try again later.");
+  //       setLoading(false);
+  //     }
+  //   };
+  //   fetchStocks();
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
+
   useEffect(() => {
     const fetchStocks = async () => {
+      setLoading(true);
       try {
-        const response = await axios.get(`${apiUrl}/stocks/getAllStockDetails`);
-        setStocks(response.data);
-        setFilteredStocks(response.data);
+        const response = await axios.get(
+          `${apiUrl}/stocks/getAllStockDetails`,
+          {
+            params: { page: currentPage, limit: stocksPerPage },
+          }
+        );
+        console.log(response);
+        setStocks(response.data.stocks);
+        setFilteredStocks(response.data.stocks);
         setLoading(false);
       } catch (err) {
         setError("Error fetching stocks. Please try again later.");
@@ -31,7 +54,7 @@ const StockPriceList = () => {
     };
     fetchStocks();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [currentPage, stocksPerPage]);
 
   const refreshData = async () => {
     setLoading(true);

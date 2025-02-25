@@ -51,7 +51,7 @@ const Pagination = ({
             id="itemsPerPage"
             value={itemsPerPage}
             onChange={handleItemsPerPageChange}
-            disabled={setResponseValue.length < 2}
+            disabled={setResponseValue.length < 1}
           >
             <option value={1}>1 items-per-page</option>
             <option value={2}>2 items-per-page</option>
@@ -75,7 +75,11 @@ const Pagination = ({
         {getVisiblePages().map((page) => (
           <button
             key={page}
-            onClick={() => setCurrentPage(page)}
+            // onClick={() => setCurrentPage(page)}
+            onClick={() => {
+              setCurrentPage(page);
+              window.scrollTo(0, 0); // Scroll to top when changing pages
+            }}
             className={
               currentPage === page
                 ? "active pagination-button"

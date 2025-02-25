@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../../css/StockAddingBackend.css"; // Custom CSS for the page
+import { useNavigate } from "react-router-dom";
 
-const StockAddingBackend = () => {
+const StockAddingBackend = ({ isAdmins }) => {
   const [formData, setFormData] = useState({
     symbol: "",
     name: "",
@@ -14,6 +15,14 @@ const StockAddingBackend = () => {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isAdmins === false) {
+      navigate("/"); // Redirect to dashboard or another page
+    }
+  }, [isAdmins, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

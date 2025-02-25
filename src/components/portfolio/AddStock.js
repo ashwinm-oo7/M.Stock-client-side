@@ -174,9 +174,11 @@ const AddStock = () => {
         }
       );
 
-      setMessage("✅ Alert set successfully!");
-      setAlertPrice("");
-      fetchAlerts();
+      if (response.status === 201) {
+        setMessage("✅ Alert set successfully!");
+        setAlertPrice("");
+        fetchAlerts();
+      }
     } catch (err) {
       setMessage("❌ Error setting alert.");
     }
