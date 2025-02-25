@@ -21,6 +21,13 @@ const Login = () => {
   const apiUrl = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
+    const authToken = localStorage.getItem("authToken");
+    if (authToken) {
+      navigate("/"); // Redirect to dashboard or another page
+    }
+  }, [navigate]);
+
+  useEffect(() => {
     if (isOtpSent && timeLeft > 0) {
       const timer = setInterval(() => {
         setTimeLeft((prev) => prev - 1);

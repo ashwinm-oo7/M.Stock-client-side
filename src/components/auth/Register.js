@@ -26,6 +26,13 @@ const Register = () => {
     return passwordRegex.test(password);
   };
 
+  useEffect(() => {
+    const authToken = localStorage.getItem("authToken");
+    if (authToken) {
+      navigate("/"); // Redirect to dashboard or another page
+    }
+  }, [navigate]);
+
   // Form validation function
   const validateForm = () => {
     const { name, email, username, password } = formData;

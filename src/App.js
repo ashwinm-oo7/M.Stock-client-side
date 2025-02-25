@@ -15,7 +15,10 @@ import ForgotPassword from "./components/auth/ForgotPassword.js";
 import NotFound from "./context/NotFound.js";
 import UserProfile from "./components/auth/UserProfile.js";
 import StockAddingBackend from "./components/stocks/StockAddingBackend.js";
+
 const App = () => {
+  const authToken = localStorage.getItem("authToken");
+
   return (
     <Router>
       <Header />
@@ -32,9 +35,13 @@ const App = () => {
           path="/track-performance/:userId/:stockId"
           element={<TrackStockPerformance />}
         /> */}
-        <Route path="/login" element={<Login />} />
-        <Route path="/protected" element={<ProtectedPage />} />
-        <Route path="/register" element={<Register />} />
+        {authToken && (
+          <>
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/protected" element={<ProtectedPage />} />
+          </>
+        )}
         <Route
           path="/TrackStockPerformance"
           element={<TrackStockPerformance />}
