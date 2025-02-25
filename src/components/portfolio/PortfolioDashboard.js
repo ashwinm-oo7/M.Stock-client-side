@@ -16,7 +16,7 @@ import {
   Paper,
   Box,
 } from "@mui/material";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const PortfolioDashboard = () => {
   const storedUser = localStorage.getItem("user");
@@ -39,7 +39,7 @@ const PortfolioDashboard = () => {
       if (response.status === 200 && response.data) {
         const portfolioData = response.data;
 
-        if (!portfolioData || !portfolioData.holdings) {
+        if (!portfolioData) {
           throw new Error("Invalid portfolio data received.");
         }
 
@@ -66,11 +66,14 @@ const PortfolioDashboard = () => {
     if (id) {
       fetchPortfolioData();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
+
   const handleSearch = (event) => {
     setSearchQuery(event.target.value.toLowerCase());
   };
-  const filteredHoldings = portfolio?.holdings.filter((stock) =>
+
+  const filteredHoldings = portfolio?.holdings?.filter((stock) =>
     stock.symbol.toLowerCase().includes(searchQuery)
   );
 
@@ -81,22 +84,6 @@ const PortfolioDashboard = () => {
         <Typography variant="h6" sx={{ mt: 2 }}>
           Loading portfolio data...
         </Typography>
-      </Container>
-    );
-  }
-
-  if (errorMessage) {
-    return (
-      <Container sx={{ textAlign: "center", mt: 4 }}>
-        <Alert severity="error">{errorMessage}</Alert>
-      </Container>
-    );
-  }
-
-  if (!portfolio) {
-    return (
-      <Container sx={{ textAlign: "center", mt: 4 }}>
-        <Typography variant="h6">No portfolio data available.</Typography>
       </Container>
     );
   }
@@ -119,9 +106,15 @@ const PortfolioDashboard = () => {
         </Link>
       </Box>
 
+      {errorMessage && (
+        <Alert severity="error" sx={{ mb: 4 }}>
+          {errorMessage}
+        </Alert>
+      )}
+
       <Box sx={{ textAlign: "center", mb: 4 }}>
         <Typography variant="h6" color="primary">
-          Total Portfolio Value: ${portfolio.totalValue.toFixed(2)}
+          Total Portfolio Value: ${portfolio?.totalValue?.toFixed(2) || "0.00"}
         </Typography>
         <TextField
           fullWidth
@@ -185,8 +178,8 @@ const PortfolioDashboard = () => {
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={5} align="center">
-                  No stocks found for the search term.
+                <TableCell colSpan={6} align="center">
+                  No stocks found or no portfolio data available.
                 </TableCell>
               </TableRow>
             )}

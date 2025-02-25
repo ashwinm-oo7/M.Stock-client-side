@@ -126,7 +126,7 @@ const StockPriceList = () => {
                   }}
                   className="add-stock-btn"
                 >
-                  Add to Portfolio
+                  Buy/Sell Portfolio
                 </Link>
               </div>
             </div>

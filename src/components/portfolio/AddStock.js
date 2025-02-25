@@ -2,13 +2,17 @@ import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 import "../../css/AddStock.css"; // Custom CSS for the component
-import StockHistory from "../stocks/StockHistory";
 import Pagination from "../Pagination/Pagination";
 
 const AddStock = () => {
   const location = useLocation();
   const { stockId, symbol, currentPrice } = location.state || {}; // Destructure stockId, symbol, and currentPrice
   const [quantity, setQuantity] = useState("");
+  const [alertPrice, setAlertPrice] = useState(""); // New state for alert price
+  const [alertType, setAlertType] = useState("BUY"); // "BUY" or "SELL"
+  const [alerts, setAlerts] = useState([]); // List of active alerts
+  const [message, setMessage] = useState("");
+
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
@@ -31,8 +35,22 @@ const AddStock = () => {
       }
     };
 
-    if (stockId) fetchPriceHistory();
+    if (stockId) {
+      fetchPriceHistory();
+      fetchAlerts();
+    }
   }, [stockId]);
+  const fetchAlerts = async () => {
+    try {
+      const userId = localStorage.getItem("userId");
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}/alerts/user/${userId}`
+      );
+      setAlerts(response.data);
+    } catch (err) {
+      setMessage("Failed to fetch alerts.");
+    }
+  };
 
   const handleAddStock = async () => {
     setError("");
@@ -135,6 +153,46 @@ const AddStock = () => {
       setLoadings(false);
     }
   };
+  const handleSetAlert = async () => {
+    if (!alertPrice || isNaN(alertPrice) || alertPrice <= 0) {
+      setMessage("❌ Please enter a valid alert price.");
+      return;
+    }
+
+    try {
+      const userId = localStorage.getItem("userId");
+      const email = localStorage.getItem("email"); // Store user email
+      console.log("userId: " + userId + " email: " + email);
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_URL}/alerts/create`,
+        {
+          userId,
+          symbol,
+          targetPrice: alertPrice,
+          alertType,
+          email,
+        }
+      );
+
+      setMessage("✅ Alert set successfully!");
+      setAlertPrice("");
+      fetchAlerts();
+    } catch (err) {
+      setMessage("❌ Error setting alert.");
+    }
+  };
+
+  // Handle Deleting Alerts
+  const handleDeleteAlert = async (alertId) => {
+    try {
+      await axios.delete(`${process.env.REACT_APP_API_URL}/alerts/${alertId}`);
+      setAlerts(alerts.filter((alert) => alert._id !== alertId));
+      setMessage("Alert deleted.");
+    } catch (err) {
+      setMessage("Error deleting alert.");
+    }
+  };
+
   const indexOfLastRecord = currentPage * recordsPerPage;
   const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
   const currentRecords = priceHistory.slice(
@@ -190,6 +248,63 @@ const AddStock = () => {
       </button>
       {error && <div className="alert alert-error">{error}</div>}
       {success && <div className="alert alert-success">{success}</div>}
+      <h2>Set Buy/Sell Alert</h2>
+      <div className="form-group">
+        <label>Alert Price:</label>
+        <input
+          type="number"
+          className="form-control"
+          value={alertPrice}
+          onChange={(e) => setAlertPrice(e.target.value)}
+        />
+      </div>
+      <div className="form-group">
+        <label>Alert Type:</label>
+        <select
+          className="form-control"
+          value={alertType}
+          onChange={(e) => setAlertType(e.target.value)}
+        >
+          <option value="BUY">BUY</option>
+          <option value="SELL">SELL</option>
+        </select>
+      </div>
+      <button onClick={handleSetAlert} className="btn btn-warning">
+        Set Alert
+      </button>
+
+      {/* Active Alerts Section */}
+      <h2>Active Alerts</h2>
+      {alerts.length > 0 ? (
+        <table className="alerts-table">
+          <thead>
+            <tr>
+              <th>Stock</th>
+              <th>Price</th>
+              <th>Type</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {alerts.map((alert) => (
+              <tr key={alert._id}>
+                <td>{alert.symbol}</td>
+                <td>${alert.targetPrice}</td>
+                <td>{alert.alertType}</td>
+                <td>
+                  <button onClick={() => handleDeleteAlert(alert._id)}>
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      ) : (
+        <p>No active alerts.</p>
+      )}
+
+      {message && <div className="alert">{message}</div>}
 
       <h2 className="price-history-title">Price History</h2>
       <div className="price-history">

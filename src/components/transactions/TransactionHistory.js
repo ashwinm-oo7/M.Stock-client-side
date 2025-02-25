@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import Select from "react-select"; // Import react-select
+
 import "../../css/TransactionHistory.css"; // External CSS for better styling
 import {
   LineChart,
@@ -34,6 +36,10 @@ const TransactionHistory = () => {
     setCurrentPage(1);
   };
 
+  const [filteredTransactions, setFilteredTransactions] = useState([]);
+  const [stocks, setStocks] = useState([]);
+  const [selectedStocks, setSelectedStocks] = useState([]);
+
   useEffect(() => {
     const fetchTransactionHistory = async () => {
       try {
@@ -46,6 +52,12 @@ const TransactionHistory = () => {
         console.log(response.data);
         console.log("transactions", transactions);
         setAggregatedData(response.data.aggregatedData);
+        const uniqueStocks = [
+          ...new Set(response.data.transactions.map((t) => t.stockId?.symbol)),
+        ];
+        setStocks(
+          uniqueStocks.map((symbol) => ({ label: symbol, value: symbol }))
+        );
       } catch (err) {
         setError("Failed to fetch transaction data. Please try again later.");
       } finally {
@@ -54,6 +66,7 @@ const TransactionHistory = () => {
     };
 
     if (userId) fetchTransactionHistory();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId, filters]);
 
   const handleFilterChange = (e) => {
@@ -62,11 +75,22 @@ const TransactionHistory = () => {
       [e.target.name]: e.target.value,
     }));
   };
+  useEffect(() => {
+    if (selectedStocks.length > 0) {
+      setFilteredTransactions(
+        transactions.filter((t) => selectedStocks.includes(t.stockId?.symbol))
+      );
+    } else {
+      setFilteredTransactions(transactions); // Show all if no filters
+    }
+  }, [selectedStocks, transactions]);
+
   const formatChartData = () => {
     if (!transactions || transactions.length === 0) return [];
+    if (!filteredTransactions || filteredTransactions.length === 0) return [];
 
     // Group transactions by date
-    const dataMap = transactions.reduce((acc, transaction) => {
+    const dataMap = filteredTransactions.reduce((acc, transaction) => {
       const date = new Date(transaction.date).toLocaleDateString();
       if (!acc[date]) {
         acc[date] = { date, buy: 0, sell: 0 };
@@ -231,8 +255,21 @@ const TransactionHistory = () => {
             </table>
           </div>
           {/* Chart Section */}
+
+          <div className="filter-section card">
+            <h2>Stock Filter</h2>
+            <Select
+              isMulti
+              options={stocks}
+              onChange={(selectedOptions) =>
+                setSelectedStocks(selectedOptions.map((option) => option.value))
+              }
+              placeholder="Select Stocks"
+              className="stock-filter-dropdown"
+            />
+          </div>
           <div className="chart-container">
-            {transactions.length > 0 ? (
+            {filteredTransactions.length > 0 ? (
               <ResponsiveContainer width="100%" height={300}>
                 <h3>Transaction Trend</h3>
                 <p>

@@ -156,8 +156,11 @@ const UserProfile = () => {
         setIsModalOpen(false);
         setUser((prevUser) => ({
           ...prevUser,
-          profilePic: response.data.profilePic,
+          profilePic: response?.data?.profilePic,
         }));
+        setTimeout(() => {
+          window.location.reload();
+        }, 500); // Delay for better UX (optional)
       } else {
         setError("Upload failed.");
       }
@@ -274,15 +277,20 @@ const UserProfile = () => {
           {/* Profile Picture Section */}
           <div className="profile-picture-container">
             <div className="profile-image-wrapper">
-              <img
-                src={
-                  user.profilePicBase64 ||
-                  user.profilePic ||
-                  "/default-profile.png"
-                }
-                alt="User Profile"
-                className="profile-image"
-              />
+              {user?.profilePicBase64 ? (
+                <img
+                  src={
+                    user.profilePicBase64 ||
+                    user.profilePic ||
+                    "/default-profile.png"
+                  }
+                  alt="User Profile"
+                  className="profile-image"
+                />
+              ) : (
+                <div className="profile-placeholder1">{user?.name?.[0]}</div>
+              )}
+
               <div className="edit-icon" onClick={openModal}>
                 <FaPencilAlt /> {/* Use the React Icon here */}
               </div>

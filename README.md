@@ -68,3 +68,51 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+### **Overview of the Code**
+This code provides the implementation of a **Stock Trading System** using **React (Frontend) and Node.js (Backend)**. Below is a structured explanation of each part:
+
+---
+
+### **Frontend (React) - `AddStock.js`**
+The **React component** handles:
+1. **Stock Addition & Selling** - Allows users to buy and sell stocks.
+2. **Setting Price Alerts** - Users can set **BUY/SELL price alerts**.
+3. **Fetching Price History** - Retrieves past stock prices from the backend.
+4. **Displaying Alerts & Notifications** - Shows active alerts and price history with pagination.
+
+#### **Key Features:**
+✅ **Stock Buying & Selling**
+✅ **User Alerts Management**
+✅ **Loading State & Error Handling**
+✅ **Pagination for Price History**
+✅ **Uses `axios` for API calls**
+✅ **Manages Stock Portfolio**
+
+---
+
+### **Backend (Node.js + Express) - `transactionRoutes.js`**
+The backend **handles stock transactions**:
+1. **Buy Stocks** - Checks wallet balance before allowing purchase.
+2. **Sell Stocks** - Ensures user has enough stock to sell.
+3. **Email Notification** - Sends an **email notification** after transactions.
+4. **Transaction History API** - Returns all transactions for a user.
+
+#### **Key Features:**
+✅ **MongoDB Database (Mongoose)**
+✅ **Email Notifications using `nodemailer`**
+✅ **User Wallet Balance Management**
+✅ **Transaction History API**
+✅ **Proper Error Handling**
+
+---
+
+### **Enhancements & Suggestions**
+🔹 **Feature Improvements:**
+- Implement **real-time stock price updates** using WebSockets.
+- Add **chart visualization** for stock price history.
+- Allow users to set **multiple alerts** on a single stock.
+
+🔹 **Code Optimizations:**
+- Move **API calls to a separate service layer**.
+- Optimize **pagination logic** to improve performance.

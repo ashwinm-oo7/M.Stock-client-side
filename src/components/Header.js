@@ -5,11 +5,12 @@ import "../css/Header.css"; // Custom CSS for styling the header
 import axios from "axios";
 
 const Header = () => {
-  const [error, setError] = useState(""); // Error message state
+  // const [error, setError] = useState("");
   const [isAdmin, setIsAdmin] = useState("False"); // Error message state
-
+  const [pics, setPics] = useState("");
   const navigate = useNavigate();
-  const user = JSON.parse(localStorage.getItem("user")); // Parse the string into an object
+  const user = JSON.parse(localStorage.getItem("user"));
+
   console.log(user);
   // Handle logout
   const handleLogout = () => {
@@ -41,11 +42,12 @@ const Header = () => {
       const data = response.data;
       if (data.success) {
         setIsAdmin(data?.user?.isAdmin);
+        setPics(data?.user?.profilePicBase64);
       } else {
         alert("Failed to fetch user profile");
       }
     } catch (err) {
-      setError("Error fetching user profile");
+      console.error("Error fetching user profile");
     }
   };
   return (
@@ -84,7 +86,7 @@ const Header = () => {
                 <Link to="/user-profile" title="Profile">
                   {user.profilePic ? (
                     <img
-                      src={user.profilePicBase64 || null} // Profile picture URL
+                      src={pics || null} // Profile picture URL
                       alt="Profile"
                       className="profile-pic"
                     />

@@ -1,10 +1,9 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../../css/Login.css";
 
 // Create a UserContext to track login state
-import { useUser } from "../../context/UserContext.js";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -82,7 +81,7 @@ const Login = () => {
         // sessionStorage.setItem("user", JSON.stringify(user));
 
         // Get the stored redirect URL
-        const redirectTo = localStorage.getItem("redirectTo");
+        // const redirectTo = localStorage.getItem("redirectTo");
 
         // If there's a stored redirect URL, navigate to that page, else go to the homepage
         // navigate(redirectTo || "/");
@@ -123,6 +122,7 @@ const Login = () => {
         // navigate("/");
         localStorage.setItem("user", JSON.stringify(user)); // Optionally store user info
         localStorage.setItem("userId", user._id);
+        localStorage.setItem("email", user.email);
         navigate("/");
         // if (response.status === 200) {
         //   localStorage.setItem("authToken", response.data.token);
