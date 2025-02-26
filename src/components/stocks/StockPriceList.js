@@ -4,7 +4,8 @@ import { Link } from "react-router-dom";
 import { FaDollarSign } from "react-icons/fa";
 import { FiRefreshCcw } from "react-icons/fi";
 import "../../css/StockPriceList.css";
-import Pagination from "../Pagination/Pagination";
+// import Pagination from "../Pagination/Pagination";
+import LimitPagination from "../Pagination/LimitPagination";
 
 const StockPriceList = () => {
   const [stocks, setStocks] = useState([]); // All stocks
@@ -14,6 +15,7 @@ const StockPriceList = () => {
   const [searchTerm, setSearchTerm] = useState(""); // Search input
   const [currentPage, setCurrentPage] = useState(1);
   const [stocksPerPage, setStocksPerPage] = useState(20);
+  const [totalstock, setTotalStock] = useState(0); // Search input
 
   const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -46,6 +48,7 @@ const StockPriceList = () => {
         console.log(response);
         setStocks(response.data.stocks);
         setFilteredStocks(response.data.stocks);
+        setTotalStock(response?.data?.totalStocks);
         setLoading(false);
       } catch (err) {
         setError("Error fetching stocks. Please try again later.");
@@ -59,9 +62,12 @@ const StockPriceList = () => {
   const refreshData = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(`${apiUrl}/stocks/getAllStockDetails`);
-      setStocks(response.data);
-      setFilteredStocks(response.data);
+      const response = await axios.get(`${apiUrl}/stocks/getAllStockDetails`, {
+        params: { page: currentPage, limit: stocksPerPage },
+      });
+      console.log(response);
+      setStocks(response.data.stocks);
+      setFilteredStocks(response.data.stocks);
       setLoading(false);
     } catch (err) {
       setError("Error fetching stocks. Please try again later.");
@@ -87,11 +93,14 @@ const StockPriceList = () => {
   // Pagination Logic
   const indexOfLastStock = currentPage * stocksPerPage;
   const indexOfFirstStock = indexOfLastStock - stocksPerPage;
-  const currentStocks = filteredStocks.slice(
-    indexOfFirstStock,
-    indexOfLastStock
-  );
-  const totalPages = Math.ceil(filteredStocks.length / stocksPerPage);
+  // const currentStocks = filteredStocks.slice(
+  //   indexOfFirstStock,
+  //   indexOfLastStock
+  // );
+  const currentStocks = filteredStocks;
+
+  // const totalPages = Math.ceil(filteredStocks.length / stocksPerPage);
+  const totalPages = Math.ceil(totalstock / stocksPerPage);
 
   // Change Page
   const handleItemsPerPageChange = (e) => {
@@ -157,7 +166,8 @@ const StockPriceList = () => {
         ))}
       </div>
       {/* Pagination */}
-      <Pagination
+      <LimitPagination
+        totalstock={totalstock}
         currentPage={currentPage}
         totalPages={totalPages}
         indexOfFirstItem={indexOfFirstStock}

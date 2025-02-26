@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../../css/AddStock.css"; // Custom CSS for the component
 import Pagination from "../Pagination/Pagination";
 
 const AddStock = () => {
+  const navigate = useNavigate();
   const location = useLocation();
   const { stockId, symbol, currentPrice } = location.state || {}; // Destructure stockId, symbol, and currentPrice
   const [quantity, setQuantity] = useState("");
@@ -20,8 +21,12 @@ const AddStock = () => {
   const [priceHistory, setPriceHistory] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [recordsPerPage, setRecordPerPage] = useState(10); // Number of records to show per page
+  const userId = localStorage.getItem("userId");
 
   useEffect(() => {
+    if (!userId) {
+      navigate("/");
+    }
     const fetchPriceHistory = async () => {
       try {
         const response = await axios.get(
@@ -39,10 +44,11 @@ const AddStock = () => {
       fetchPriceHistory();
       fetchAlerts();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stockId]);
+
   const fetchAlerts = async () => {
     try {
-      const userId = localStorage.getItem("userId");
       const response = await axios.get(
         `${process.env.REACT_APP_API_URL}/alerts/user/${userId}`
       );

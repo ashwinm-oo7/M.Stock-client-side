@@ -2,7 +2,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import "../../css/Pagination.css";
-const Pagination = ({
+const LimitPagination = ({
+  totalstock,
   currentPage,
   totalPages,
   indexOfFirstItem,
@@ -39,9 +40,13 @@ const Pagination = ({
         }}
       >
         <strong style={{ marginLeft: "" }}>
-          Item :{indexOfFirstItem + 1} -{" "}
+          {/* Item :{indexOfFirstItem + 1} -{" "}
           {Math.min(indexOfLastItem, setResponseValue.length)} of{" "}
-          {setResponseValue.length}
+          {setResponseValue.length} */}
+          Item : {indexOfFirstItem + 1} -{" "}
+          {/* {Math.min(indexOfLastItem, totalPages * itemsPerPage)} of{" "}
+          {totalPages * itemsPerPage} */}
+          {Math.min(indexOfLastItem, totalstock)} of {totalstock}
         </strong>
         <strong style={{ marginLeft: "" }}>Current Page : {currentPage}</strong>
       </div>
@@ -51,7 +56,7 @@ const Pagination = ({
             id="itemsPerPage"
             value={itemsPerPage}
             onChange={handleItemsPerPageChange}
-            disabled={setResponseValue.length < 2}
+            disabled={setResponseValue.length < 1}
           >
             <option value={1}>1 items-per-page</option>
             <option value={2}>2 items-per-page</option>
@@ -65,17 +70,27 @@ const Pagination = ({
       <div className="pagination" style={{ paddingBottom: "10px" }}>
         <button
           style={{ width: "" }}
-          onClick={() => setCurrentPage(currentPage - 1)}
+          // onClick={() => setCurrentPage(currentPage - 1)}
+          onClick={() => {
+            setCurrentPage(currentPage - 1);
+            window.scrollTo(0, 0); // Scroll to top on page change
+          }}
           disabled={currentPage === 1}
           className={currentPage === 1 ? "disabled" : "pagination-button"}
-          title={currentPage - 1 + " is Prev Page"}
+          title={
+            currentPage === 1 ? "First Page" : `Go to Page ${currentPage - 1}`
+          }
         >
           {"<<"}
         </button>
         {getVisiblePages().map((page) => (
           <button
             key={page}
-            onClick={() => setCurrentPage(page)}
+            // onClick={() => setCurrentPage(page)}
+            onClick={() => {
+              setCurrentPage(page);
+              window.scrollTo(0, 0); // Scroll to top when changing pages
+            }}
             className={
               currentPage === page
                 ? "active pagination-button"
@@ -87,14 +102,26 @@ const Pagination = ({
         ))}
         <button
           style={{ width: "" }}
-          onClick={() => setCurrentPage(currentPage + 1)}
-          disabled={indexOfLastItem >= setResponseValue.length}
+          // onClick={() => setCurrentPage(currentPage + 1)}
+          onClick={() => {
+            setCurrentPage(currentPage + 1);
+            window.scrollTo(0, 0); // Scroll to top on page change
+          }}
+          // disabled={indexOfLastItem >= setResponseValue.length}
+          disabled={currentPage >= totalPages} // Fix: Disable only on the last page
+          // className={
+          //   indexOfLastItem >= setResponseValue.length
+          //     ? "disabled"
+          //     : "pagination-button"
+          // }
           className={
-            indexOfLastItem >= setResponseValue.length
-              ? "disabled"
-              : "pagination-button"
+            currentPage >= totalPages ? "disabled" : "pagination-button"
           }
-          title={currentPage + 1 + " is Next Page"}
+          title={
+            currentPage < totalPages
+              ? `Go to Page ${currentPage + 1}`
+              : "Last Page"
+          }
         >
           {">>"}
         </button>
@@ -103,10 +130,15 @@ const Pagination = ({
   );
 };
 
-Pagination.propTypes = {
+LimitPagination.propTypes = {
   currentPage: PropTypes.number.isRequired,
   totalPages: PropTypes.number.isRequired,
+  indexOfFirstItem: PropTypes.number.isRequired,
+  indexOfLastItem: PropTypes.number.isRequired,
+  setResponseValue: PropTypes.array.isRequired,
+  itemsPerPage: PropTypes.number.isRequired,
   setCurrentPage: PropTypes.func.isRequired,
+  handleItemsPerPageChange: PropTypes.func.isRequired,
 };
 
-export default Pagination;
+export default LimitPagination;
