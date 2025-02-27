@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { FaDollarSign } from "react-icons/fa";
@@ -7,11 +7,13 @@ import "../../css/StockPriceList.css";
 // import Pagination from "../Pagination/Pagination";
 import LimitPagination from "../Pagination/LimitPagination";
 
-const StockPriceList = () => {
+const StockPriceList = ({ userID }) => {
   const [stocks, setStocks] = useState([]); // All stocks
   const [filteredStocks, setFilteredStocks] = useState([]); // Filtered list for search
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const searchInputRef = useRef(null);
+
   const [searchTerm, setSearchTerm] = useState(""); // Search input
   const [currentPage, setCurrentPage] = useState(1);
   const [stocksPerPage, setStocksPerPage] = useState(20);
@@ -19,45 +21,48 @@ const StockPriceList = () => {
 
   const apiUrl = process.env.REACT_APP_API_URL;
 
-  // useEffect(() => {
-  //   const fetchStocks = async () => {
-  //     try {
-  //       const response = await axios.get(`${apiUrl}/stocks/getAllStockDetails`);
-  //       setStocks(response.data);
-  //       setFilteredStocks(response.data);
-  //       setLoading(false);
-  //     } catch (err) {
-  //       setError("Error fetching stocks. Please try again later.");
-  //       setLoading(false);
-  //     }
-  //   };
-  //   fetchStocks();
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
-
-  useEffect(() => {
-    const fetchStocks = async () => {
+  const fetchStocks = useCallback(
+    async (query, page, limit) => {
       setLoading(true);
+      setError(""); // Clear previous errors
+
       try {
-        const response = await axios.get(
+        const { data } = await axios.get(
           `${apiUrl}/stocks/getAllStockDetails`,
           {
-            params: { page: currentPage, limit: stocksPerPage },
+            params: { page, limit, search: query },
           }
         );
-        console.log(response);
-        setStocks(response.data.stocks);
-        setFilteredStocks(response.data.stocks);
-        setTotalStock(response?.data?.totalStocks);
-        setLoading(false);
+
+        // ✅ Ensure response data is valid before setting state
+        if (data?.stocks) {
+          setStocks(data.stocks);
+          setFilteredStocks(data.stocks);
+          setTotalStock(data.totalStocks || 0);
+        } else {
+          throw new Error("Invalid response structure");
+        }
       } catch (err) {
-        setError("Error fetching stocks. Please try again later.");
-        setLoading(false);
+        console.error("Stock fetch error:", err);
+        setError(
+          err.response?.data?.message ||
+            "Error fetching stocks. Please try again."
+        );
+      } finally {
+        setLoading(false); // ✅ Ensure loading is turned off even if error occurs
       }
-    };
-    fetchStocks();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentPage, stocksPerPage]);
+    },
+    [apiUrl]
+  );
+
+  // **🔹 Debounce API Call (Smooth Typing, Prevents Re-renders)**
+  useEffect(() => {
+    const delayDebounce = setTimeout(() => {
+      fetchStocks(searchTerm, currentPage, stocksPerPage);
+    }, 500); // Waits 500ms before making API request
+
+    return () => clearTimeout(delayDebounce);
+  }, [searchTerm, currentPage, stocksPerPage, fetchStocks]);
 
   const refreshData = async () => {
     setLoading(true);
@@ -108,10 +113,24 @@ const StockPriceList = () => {
     setCurrentPage(1); // Reset to first page when changing items per page
   };
 
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+    setCurrentPage(1); // Reset pagination when searching
+    setTimeout(() => {
+      if (searchInputRef.current) {
+        searchInputRef.current.focus(); // Keeps input focused
+      }
+    }, 0);
+  };
+  useEffect(() => {
+    if (searchInputRef.current) {
+      searchInputRef.current.focus();
+    }
+  }, []);
+
   // Change Page
 
   if (loading) return <div className="loading">Loading stocks...</div>;
-  if (error) return <div className="error">{error}</div>;
 
   return (
     <div className="stock-price-list">
@@ -121,8 +140,10 @@ const StockPriceList = () => {
           type="text"
           placeholder="Search stocks..."
           value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          onChange={handleSearchChange} // Use the fixed function
+          ref={searchInputRef}
           className="search-input"
+          onFocus={() => searchInputRef.current?.focus()} // Prevents focus loss
         />
         <button onClick={refreshData} className="refresh-btn">
           <FiRefreshCcw /> Refresh Stocks

@@ -24,6 +24,7 @@ import axios from "axios";
 
 const App = () => {
   const [isAdmin, setIsAdmin] = useState(false); // Error message state
+  const [userID, setUserID] = useState(false); // Error message state
   const [pics, setPics] = useState("");
   const user = JSON.parse(localStorage.getItem("user")) || null;
 
@@ -44,9 +45,11 @@ const App = () => {
         `${process.env.REACT_APP_API_URL}/users/user-profile/${id}`
       );
       const data = response.data;
+      console.log(data);
       if (data.success) {
         setIsAdmin(() => data?.user?.isAdmin || false); // ✅ Ensures correct state update
         setPics(data?.user?.profilePicBase64 || "");
+        setUserID(data?.user?._id);
       } else {
         setIsAdmin(false);
       }
@@ -61,7 +64,7 @@ const App = () => {
       <Header isAdmins={isAdmin} profilepic={pics} />
       <Routes>
         <Route path="*" element={<NotFound />} />
-        <Route path="/" element={<StockPriceList />} />
+        <Route path="/" element={<StockPriceList userID={userID} />} />
         <Route
           path="/stocks/track-performance/:id/:symbol"
           element={<StockDetailPage />}
@@ -79,7 +82,6 @@ const App = () => {
         ) : (
           <>
             <Route path="/portfolio" element={<PortfolioDashboard />} />
-            <Route path="/add-stock" element={<AddStock />} />
             <Route path="/transactions" element={<TransactionHistory />} />
             <Route path="/add-money-wallet" element={<AddMoney />} />{" "}
             <Route path="/forgot-password" element={<ForgotPassword />} />
@@ -96,6 +98,7 @@ const App = () => {
             />
           </>
         )}
+        <Route path="/add-stock" element={<AddStock />} />
         <Route
           path="/TrackStockPerformance"
           element={<TrackStockPerformance />}

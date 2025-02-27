@@ -17,17 +17,15 @@ import {
   ResponsiveContainer,
   Cell,
 } from "recharts";
-import { createChart } from "lightweight-charts";
 
 import "../../css/StockDetailPage.css"; // Custom CSS for the page
+import CandlestickChart from "./CandlestickChart";
 
 const StockDetailPage = () => {
   const { id, symbol } = useParams(); // Get stock ID from URL
   const [stockDetails, setStockDetails] = useState(null);
   const [stockLiveDetail, setStockLiveDetail] = useState(null);
   const [activeTab, setActiveTab] = useState("pie");
-  const chartContainerRef = useRef(null);
-  const chartInstanceRef = useRef(null);
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -55,11 +53,11 @@ const StockDetailPage = () => {
 
       try {
         const response = await axios.get(`${apiUrl}/stocks/stock-detail/${id}`);
-        setStockDetails(response.data);
-        console.log("Stock Live details: ", response.data);
+        setStockDetails(response?.data);
+        console.log("Stock Live details: ", response?.data);
         if (response?.data) {
-          console.log("Stock Live ", response.data.priceHistory);
-          setStockLiveDetail(response.data.priceHistory);
+          console.log("Stock Live ", response?.data?.priceHistory);
+          setStockLiveDetail(response?.data?.priceHistory || []);
         }
 
         setLoading(false);
@@ -110,72 +108,6 @@ const StockDetailPage = () => {
     fetchStockLiveDetails();
     // eslint-disable-next-line
   }, [id, symbol]);
-
-  useEffect(() => {
-    if (
-      activeTab !== "candlestick" ||
-      !stockLiveDetail ||
-      !chartContainerRef.current
-    )
-      return;
-
-    // Remove previous chart instance
-    if (chartInstanceRef.current) {
-      chartInstanceRef.current.remove();
-      chartInstanceRef.current = null;
-    }
-
-    const chart = createChart(chartContainerRef.current, {
-      width: chartContainerRef.current.clientWidth || 600,
-      height: 400,
-      layout: { background: { color: "#ffffff" }, textColor: "#333" },
-      grid: {
-        vertLines: { color: "#e0e0e0" },
-        horzLines: { color: "#e0e0e0" },
-      },
-    });
-
-    try {
-      // ✅ 1. Bar series for high-low shadow
-      const barSeries = chart.addHistogramSeries({
-        color: "rgba(0, 0, 0, 0.5)", // Neutral color for shadow
-        priceFormat: { type: "price", precision: 2 },
-      });
-
-      barSeries.setData(
-        stockLiveDetail.map((d) => ({
-          time: Math.floor(new Date(d.date).getTime() / 1000), // Convert to UNIX timestamp
-          value: d.high, // Display high price as bar height
-          color: d.open > d.close ? "red" : "green", // Red for bearish, green for bullish
-        }))
-      );
-
-      // ✅ 2. Line series for open-close price range
-      const lineSeries = chart.addLineSeries({
-        color: "#000000", // Black line for open-close
-        priceFormat: { type: "price", precision: 2 },
-      });
-
-      lineSeries.setData(
-        stockLiveDetail.map((d) => ({
-          time: Math.floor(new Date(d.date).getTime() / 1000),
-          value: (d.open + d.close) / 2, // Midpoint of open and close
-        }))
-      );
-
-      chartInstanceRef.current = chart;
-    } catch (error) {
-      console.error("Error creating custom candlestick chart:", error);
-    }
-
-    // Cleanup on unmount
-    return () => {
-      if (chartInstanceRef.current) {
-        chartInstanceRef.current.remove();
-        chartInstanceRef.current = null;
-      }
-    };
-  }, [activeTab, stockLiveDetail]);
 
   // If data is still loading or there's an error
   if (loading) return <div className="loading">Loading stock details...</div>;
@@ -233,31 +165,15 @@ const StockDetailPage = () => {
         </p>
       </div>
       <div className="tabs">
-        <button
-          className={activeTab === "pie" ? "active" : ""}
-          onClick={() => setActiveTab("pie")}
-        >
-          Pie Chart
-        </button>
-        <button
-          className={activeTab === "line" ? "active" : ""}
-          onClick={() => setActiveTab("line")}
-        >
-          Line Chart
-        </button>
-        <button
-          className={activeTab === "bar" ? "active" : ""}
-          onClick={() => setActiveTab("bar")}
-        >
-          Bar Chart
-        </button>
-
-        <button
-          className={activeTab === "candlestick" ? "active" : ""}
-          onClick={() => setActiveTab("candlestick")}
-        >
-          Candlestick
-        </button>
+        {["pie", "line", "bar", "candlestick"].map((tab) => (
+          <button
+            key={tab}
+            className={activeTab === tab ? "active" : ""}
+            onClick={() => setActiveTab(tab)}
+          >
+            {tab.charAt(0).toUpperCase() + tab.slice(1)} Chart
+          </button>
+        ))}
       </div>
 
       <div className="stock-performance">
@@ -272,6 +188,7 @@ const StockDetailPage = () => {
             <option value={5}>Last 5 Days</option>
             <option value={10}>Last 10 Days</option>
             <option value={20}>Last 20 Days</option>
+            <option value={45}>Last 45 Days</option>
           </select>
         </div>
         <div className="chart-container">
@@ -279,7 +196,7 @@ const StockDetailPage = () => {
             <ResponsiveContainer width="100%" height={400}>
               <PieChart>
                 <Pie
-                  data={stockLiveDetail}
+                  data={filteredData}
                   dataKey="close"
                   nameKey="date"
                   fill="#8884d8"
@@ -287,7 +204,7 @@ const StockDetailPage = () => {
                     `${name}: ${(percent * 100).toFixed(1)}%`
                   }
                 >
-                  {stockLiveDetail.map((entry, index) => (
+                  {filteredData.map((entry, index) => (
                     <Cell
                       key={`cell-${index}`}
                       fill={colors[index % colors.length]}
@@ -296,18 +213,18 @@ const StockDetailPage = () => {
                 </Pie>
                 <Tooltip />
                 <Legend
-                  payload={filteredData.map((entry, index) => ({
-                    value: `${entry.date} - Close: $${entry.close}`,
-                    type: "square",
-                    color: colors[index % colors.length],
-                  }))}
+                // payload={filteredData.map((entry, index) => ({
+                //   value: `${entry.date} - Close: $${entry.close}`,
+                //   type: "square",
+                //   color: colors[index % colors.length],
+                // }))}
                 />
               </PieChart>
             </ResponsiveContainer>
           )}
           {activeTab === "line" && (
             <ResponsiveContainer width="100%" height={400}>
-              <LineChart data={stockLiveDetail}>
+              <LineChart data={filteredData}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis
                   dataKey="date"
@@ -318,7 +235,7 @@ const StockDetailPage = () => {
                 <Legend />
                 <Line
                   type="monotone"
-                  dataKey="price"
+                  dataKey="close"
                   stroke="#8884d8"
                   strokeWidth={3}
                 />
@@ -327,7 +244,7 @@ const StockDetailPage = () => {
           )}
           {activeTab === "bar" && (
             <ResponsiveContainer width="100%" height={400}>
-              <BarChart data={stockLiveDetail}>
+              <BarChart data={filteredData}>
                 <XAxis dataKey="date" />
                 <YAxis />
                 <Tooltip />
@@ -350,7 +267,10 @@ const StockDetailPage = () => {
           )}
 
           {activeTab === "candlestick" && (
-            <div ref={chartContainerRef} className="candlestick-chart"></div>
+            <CandlestickChart
+              key={Math.random()}
+              stockLiveDetail={filteredData}
+            />
           )}
         </div>
       </div>

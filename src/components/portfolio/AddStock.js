@@ -25,7 +25,7 @@ const AddStock = () => {
 
   useEffect(() => {
     if (!userId) {
-      navigate("/");
+      navigate("/login");
     }
     const fetchPriceHistory = async () => {
       try {
