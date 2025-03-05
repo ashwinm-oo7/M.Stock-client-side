@@ -53,9 +53,9 @@ const StockDetailPage = () => {
 
       try {
         const response = await axios.get(`${apiUrl}/stocks/stock-detail/${id}`);
-        setStockDetails(response?.data);
         console.log("Stock Live details: ", response?.data);
         if (response?.data) {
+          setStockDetails(response?.data);
           console.log("Stock Live ", response?.data?.priceHistory);
           setStockLiveDetail(response?.data?.priceHistory || []);
         }
@@ -212,13 +212,13 @@ const StockDetailPage = () => {
                   ))}
                 </Pie>
                 <Tooltip />
-                <Legend
-                // payload={filteredData.map((entry, index) => ({
-                //   value: `${entry.date} - Close: $${entry.close}`,
-                //   type: "square",
-                //   color: colors[index % colors.length],
-                // }))}
-                />
+                {/* <Legend
+                  payload={filteredData.map((entry, index) => ({
+                    value: `${entry.date} - Close: $${entry.close}`,
+                    type: "square",
+                    color: colors[index % colors.length],
+                  }))}
+                /> */}
               </PieChart>
             </ResponsiveContainer>
           )}

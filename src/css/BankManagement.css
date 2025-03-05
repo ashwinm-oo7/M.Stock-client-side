@@ -1,0 +1,80 @@
+.bank-management-container {
+    max-width: 600px;
+    margin: 40px auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    font-family: "Arial", sans-serif;
+  }
+  
+  h2 {
+    text-align: center;
+    color: #2c3e50;
+    font-size: 22px;
+    margin-bottom: 20px;
+  }
+  
+  .bank-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .bank-form input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+  
+  .bank-form button {
+    background: #3498db;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .bank-form button:hover {
+    background: #2980b9;
+  }
+  
+  .bank-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+  }
+  
+  .bank-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f8f9fa;
+    padding: 12px;
+    margin: 5px 0;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+  
+  .bank-list li span {
+    font-weight: bold;
+    color: #34495e;
+  }
+  
+  .bank-list button {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .bank-list button:hover {
+    background: #c0392b;
+  }
+  

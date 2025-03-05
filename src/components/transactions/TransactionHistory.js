@@ -15,6 +15,7 @@ import {
 } from "recharts";
 
 import Pagination from "../Pagination/Pagination.js";
+import { useNavigate } from "react-router-dom";
 const TransactionHistory = () => {
   const [transactions, setTransactions] = useState([]);
   const [aggregatedData, setAggregatedData] = useState({});
@@ -39,7 +40,13 @@ const TransactionHistory = () => {
   const [filteredTransactions, setFilteredTransactions] = useState([]);
   const [stocks, setStocks] = useState([]);
   const [selectedStocks, setSelectedStocks] = useState([]);
-
+  const navigate = useNavigate();
+  useEffect(() => {
+    const authToken = localStorage.getItem("authToken");
+    if (!authToken) {
+      navigate("/"); // Redirect to dashboard or another page
+    }
+  }, [navigate]);
   useEffect(() => {
     const fetchTransactionHistory = async () => {
       try {

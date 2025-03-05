@@ -104,6 +104,9 @@ const PortfolioDashboard = () => {
         <Link to="/add-money-wallet" className="add-money-button">
           Add Money
         </Link>
+        <Link to="/withdraw-money" className="WithdrawMoney-money-button">
+          WithdrawMoney
+        </Link>
       </Box>
 
       {errorMessage && (

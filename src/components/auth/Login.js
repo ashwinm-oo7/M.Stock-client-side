@@ -115,16 +115,25 @@ const Login = () => {
       setLoading(true);
       setErrorMessage("");
 
-      const response = await axios.post(`${apiUrl}/users/login`, {
-        email: formData.email,
-        otp: formData.otp,
-      });
+      const response = await axios.post(
+        `${apiUrl}/users/login`,
+        {
+          email: formData.email,
+          otp: formData.otp,
+        },
+        { withCredentials: true }
+      );
       console.log(response);
       if (response.status === 200 && response.data) {
         // setIsOtpSent(true);
 
         const { token, user } = response.data;
+        const decodedToken = JSON.parse(atob(token.split(".")[1])); // Decode JWT payload
+        const expirationTime = decodedToken.exp * 1000;
+        // const expirationTime = Date.now() + 2 * 60 * 1000;
+
         localStorage.setItem("authToken", token); // Store token in local storage
+        localStorage.setItem("expiryTime", expirationTime); // Store expiry time
 
         // navigate("/");
         localStorage.setItem("user", JSON.stringify(user)); // Optionally store user info

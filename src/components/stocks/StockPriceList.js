@@ -131,7 +131,7 @@ const StockPriceList = ({ userID }) => {
   // Change Page
 
   if (loading) return <div className="loading">Loading stocks...</div>;
-
+  if (error) <div className="Error">Loading stocks...</div>;
   return (
     <div className="stock-price-list">
       <h1 className="title">Stocks Overview</h1>
@@ -153,14 +153,14 @@ const StockPriceList = ({ userID }) => {
         {currentStocks.map((stock) => (
           <div key={stock._id} className="stock-card">
             <div className="stock-card-header">
-              <h2>{stock.name}</h2>
+              <h2 style={{ fontSize: "20px" }}>{stock.name}</h2>
               <span className="stock-symbol">({stock.symbol})</span>
             </div>
+            <div className="stock-price">
+              <FaDollarSign />
+              <span className="price">${stock.currentPrice}</span>
+            </div>
             <div className="stock-card-body">
-              <div className="stock-price">
-                <FaDollarSign />
-                <span className="price">${stock.currentPrice}</span>
-              </div>
               <div className="stock-action">
                 <Link
                   to={`/stocks/track-performance/${stock._id}/${stock.symbol}`}

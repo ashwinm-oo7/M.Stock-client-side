@@ -6,7 +6,7 @@ import "../css/Header.css"; // Custom CSS for styling the header
 const Header = ({ isAdmins, profilepic }) => {
   // const [error, setError] = useState("");
   const [isAdmin, setIsAdmin] = useState(false); // Error message state
-  const [pics, setPics] = useState("");
+
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("user")) || null;
 
@@ -18,12 +18,25 @@ const Header = ({ isAdmins, profilepic }) => {
       console.error("Logout failed:", error);
     }
   };
+  useEffect(() => {
+    const checkTokenExpiry = () => {
+      const expiryTime = localStorage.getItem("expiryTime");
+
+      if (expiryTime && Date.now() > expiryTime) {
+        handleLogout(); // Logout user if token has expired
+      }
+    };
+    checkTokenExpiry();
+    const interval = setInterval(checkTokenExpiry, 1000 * 60); // Check every minute
+
+    return () => clearInterval(interval);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [navigate]);
 
   useEffect(() => {
     if (user && user._id) {
       // fetchUserProfile(user._id);
       setIsAdmin(() => isAdmins); // ✅ Ensures correct state update
-      setPics(profilepic);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -62,9 +75,9 @@ const Header = ({ isAdmins, profilepic }) => {
               </li>
               <li className="user-profile">
                 <Link to="/user-profile" title="Profile">
-                  {pics ? (
+                  {profilepic ? (
                     <img
-                      src={pics || null} // Profile picture URL
+                      src={profilepic || null} // Profile picture URL
                       alt="Profile"
                       className="profile-pic"
                     />

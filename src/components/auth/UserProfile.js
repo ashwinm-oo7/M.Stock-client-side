@@ -6,6 +6,9 @@ import "../../css/UserProfile.css";
 import axios from "axios";
 import { FaPencilAlt } from "react-icons/fa";
 import { compressBase64Image } from "../../context/UserContext";
+import { useNavigate } from "react-router-dom";
+import BankManagement from "./BankManagement"; // Import the component
+
 const UserProfile = () => {
   const [user, setUser] = useState(null);
   const [image, setImage] = useState(null);
@@ -31,6 +34,15 @@ const UserProfile = () => {
   const cropperRef = useRef(null);
   // Close Modal on Outside Click
   const modalRef = useRef(null);
+  const navigate = useNavigate();
+  const [showBankManagement, setShowBankManagement] = useState(false);
+
+  useEffect(() => {
+    const authToken = localStorage.getItem("authToken");
+    if (!authToken) {
+      navigate("/login"); // Redirect to dashboard or another page
+    }
+  }, [navigate]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -51,8 +63,9 @@ const UserProfile = () => {
   // Fetch user profile data from the backend
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("user"));
-
-    fetchUserProfile(storedUser._id);
+    if (storedUser) {
+      fetchUserProfile(storedUser._id);
+    }
   }, []);
   const fetchUserProfile = async (id) => {
     try {
@@ -335,7 +348,17 @@ const UserProfile = () => {
               Update Details
             </button>
           </div>
+          <button
+            onClick={() => setShowBankManagement(!showBankManagement)}
+            className="bg-green-500 text-white p-2 rounded w-full hover:bg-green-600 mt-3"
+          >
+            {showBankManagement
+              ? "Close Bank Management"
+              : "Manage Bank Accounts"}
+          </button>
 
+          {/* Conditionally Render BankManagement */}
+          {showBankManagement && <BankManagement />}
           <div className="toggle-wrapper">
             <strong className="toggle-text">Changed Password:</strong>
             <div className="toggle-container" onClick={toggleChangePassword}>

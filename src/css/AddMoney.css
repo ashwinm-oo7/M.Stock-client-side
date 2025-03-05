@@ -1,6 +1,6 @@
 /* Container for the add money form */
 .add-money-container {
-    max-width: 500px;
+    max-width: 600px;
     margin: 0 auto;
     padding: 2rem;
     background-color: #f9f9f9;
@@ -39,7 +39,7 @@
   }
   
   /* Styling for the button */
-  .add-money-button {
+  .add-money-button  {
     padding: 10px 20px;
     font-size: 16px;
     color: #fff;
@@ -54,6 +54,20 @@
     background-color: #45a049;
   }
   
+  /* Disabled button styling */
+.add-money-button:disabled, 
+.add-money-button.disabled {
+    background-color: #ccc;  /* Greyed-out background */
+    cursor: not-allowed;  /* Prevents interaction */
+    opacity: 0.7;  /* Slight transparency */
+    transition: none;  /* No hover effects */
+}
+
+/* Optional: Change text color when disabled */
+.add-money-button:disabled span {
+    color: #777;
+}
+
   /* Success message style */
   .success-message {
     color: #4CAF50;

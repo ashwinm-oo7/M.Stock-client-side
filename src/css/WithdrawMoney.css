@@ -1,0 +1,105 @@
+/* WithdrawMoney.css */
+
+.withdraw-container {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+  background: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  text-align: center;
+}
+
+h2 {
+  font-size: 22px;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 5px;
+  text-align: left;
+}
+
+
+select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: border 0.3s ease;
+}
+.withdraw-container-input{
+  width: 90%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: border 0.3s ease;
+
+}
+input:focus,
+select:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.withdraw-money-button {
+  background: #007bff;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.withdraw-money-button:hover {
+  background: #0056b3;
+}
+
+.withdraw-money-button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.success-message {
+  margin-top: 15px;
+  color: #28a745;
+  font-weight: bold;
+}
+
+.error-message {
+  margin-top: 15px;
+  color: #dc3545;
+  font-weight: bold;
+}
+
+.balance-message {
+  margin-top: 10px;
+  color: #333;
+  font-weight: bold;
+}
+
+.WithdrawMoney-money-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #bc2f04;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.withdraw-money-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
