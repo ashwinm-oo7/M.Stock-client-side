@@ -21,12 +21,7 @@
     gap: 10px;
   }
   
-  .bank-form input {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 14px;
-  }
+
   
   .bank-form button {
     background: #3498db;
@@ -78,3 +73,13 @@
     background: #c0392b;
   }
   
+  .bank-form-select,
+.bank-form-input {
+    /* width: 90%; */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    outline: none;
+    transition: border 0.3s ease;
+}

@@ -1,72 +1,146 @@
+/* Container for the transaction history */
 .transaction-container {
-    max-width: 800px;
-    margin: auto;
-  }
-  
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Header Styling */
+.transaction-container-h2 {
+  font-size: 28px;
+  font-weight: 600;
+  color: #333;
+  text-align: center;
+  margin-bottom: 25px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Filter Section Styling */
+.filter-container {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  justify-content: space-between;
+  /* flex-wrap: wrap; */
+}
+
+.filter-container select,
+.filter-container input {
+  padding: 10px 15px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  width: 150px;
+  transition: border-color 0.3s ease;
+}
+
+/* Focus Effect on Inputs */
+.filter-container select:focus,
+.filter-container input:focus {
+  border-color: #4CAF50;
+  box-shadow: 0 0 8px rgba(76, 175, 80, 0.2);
+}
+
+/* Transactions Table Styling */
+.transaction-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.transaction-table th, .transaction-table td {
+  padding: 12px;
+  text-align: center;
+  font-size: 16px;
+  border-bottom: 1px solid #ddd;
+}
+
+.transaction-table th {
+  background-color: #4CAF50;
+  color: white;
+  font-weight: 600;
+}
+
+.transaction-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.transaction-table tr:hover {
+  background-color: #f1f1f1;
+}
+
+.transaction-table td {
+  font-size: 15px;
+}
+
+.transaction-table td,
+.transaction-table th {
+  border-right: 1px solid #ddd;
+}
+
+.transaction-table td:last-child,
+.transaction-table th:last-child {
+  border-right: none;
+}
+
+/* No transactions message */
+.transaction-table td[colspan="5"] {
+  text-align: center;
+  font-size: 18px;
+  color: #888;
+  padding: 30px;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
   .filter-container {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 15px;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
   }
-  
-  .transaction-table {
+
+  .filter-container select,
+  .filter-container input {
     width: 100%;
-    border-collapse: collapse;
+    max-width: 300px;
   }
-  
-  .transaction-table th, .transaction-table td {
+
+  .transaction-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .transaction-table th,
+  .transaction-table td {
+    font-size: 14px;
     padding: 10px;
-    border: 1px solid #ddd;
-    text-align: center;
   }
-  
-  .transaction-table th {
-    background-color: #4CAF50;
-    color: white;
+}
+
+@media (max-width: 480px) {
+  .transaction-container {
+    padding: 15px;
   }
-  
-  .transaction-table tr:hover {
-    background-color: #f1f1f1;
+
+  .transaction-container-h2 {
+    font-size: 22px;
+    margin-bottom: 20px;
   }
-  
-  @media (max-width: 768px) {
-    .filter-container {
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-    }
-  
-    .filter-container select,
-    .filter-container input {
-      width: 100%;
-    }
-  
-    .transaction-table {
-      display: block;
-      overflow-x: auto;
-      white-space: nowrap;
-    }
-  
-    .transaction-table th,
-    .transaction-table td {
-      padding: 8px;
-      font-size: 13px;
-    }
+
+  .filter-container {
+    gap: 8px;
   }
-  
-  @media (max-width: 480px) {
-    h2 {
-      font-size: 18px;
-    }
-  
-    .filter-container {
-      gap: 6px;
-    }
-  
-    .transaction-table th,
-    .transaction-table td {
-      padding: 6px;
-      font-size: 12px;
-    }
+
+  .transaction-table th,
+  .transaction-table td {
+    font-size: 13px;
+    padding: 8px;
   }
-  
+}
+

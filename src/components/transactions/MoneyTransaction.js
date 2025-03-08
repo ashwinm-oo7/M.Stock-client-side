@@ -44,8 +44,8 @@ const MoneyTransaction = () => {
           <option value="">All</option>
           <option value="Deposit">Deposit</option>
           <option value="Withdrawal">Withdrawal</option>
-          <option value="Buy">Stock Purchase</option>
-          <option value="Sell">Stock Sale</option>
+          {/* <option value="Buy">Stock Purchase</option> */}
+          {/* <option value="Sell">Stock Sale</option> */}
         </select>
 
         <select

@@ -102,12 +102,12 @@ const AddMoney = () => {
           disabled={loading}
         />
         <div className="mt-2">
-          <label className="block font-medium">Select Bank Account</label>
+          <label className="">Select Bank Account</label>
 
           <select
             value={selectedBank}
             onChange={(e) => setSelectedBank(e.target.value)}
-            className="border p-2 w-full rounded"
+            className="input-field"
           >
             <option value="">Select Bank Account</option>
             {bankAccounts.length === 0 ? (

@@ -145,7 +145,7 @@ const BankManagement = () => {
 
       <div className="bank-form">
         <h2>Choose Your Bank</h2>
-        <select onChange={handleBankChange}>
+        <select className="bank-form-select" onChange={handleBankChange}>
           <option value="">Select a Bank</option>
           {banks.map((bank) => (
             <option key={bank._id} value={bank.name}>
@@ -155,13 +155,20 @@ const BankManagement = () => {
         </select>
 
         <input
+          className="bank-form-input"
           type="text"
           placeholder="Account Number"
           value={accountNumber}
           onChange={handleAccountNumberChange}
           maxLength="18"
         />
-        <input type="text" placeholder="IFSC Code" value={ifscCode} readOnly />
+        <input
+          className="bank-form-input"
+          type="text"
+          placeholder="IFSC Code"
+          value={ifscCode}
+          readOnly
+        />
         <button onClick={handleAddBankAccount}>Add Bank Account</button>
       </div>
       <ul className="bank-list">

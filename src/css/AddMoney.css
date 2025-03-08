@@ -1,92 +1,169 @@
 /* Container for the add money form */
 .add-money-container {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 2rem;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-  }
-  
-  /* Header Styling */
-  .money-header {
-    font-size: 24px;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 20px;
-  }
-  
-  /* Styling for the input field and button container */
-  .input-container {
-    margin-bottom: 20px;
-  }
-  
-  /* Styling for the input field */
-  .input-field {
-    width: 80%;
-    padding: 10px;
-    margin-bottom: 15px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    outline: none;
-    transition: border-color 0.3s ease;
-  }
-  
-  .input-field:focus {
-    border-color: #4CAF50;
-  }
-  
-  /* Styling for the button */
-  .add-money-button  {
-    padding: 10px 20px;
-    font-size: 16px;
-    color: #fff;
-    background-color: #4CAF50;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .add-money-button:hover {
-    background-color: #45a049;
-  }
-  
-  /* Disabled button styling */
-.add-money-button:disabled, 
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 0.5rem;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Header Styling */
+.money-header {
+  font-size: 28px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Styling for the input field and button container */
+.input-container {
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  align-items: center;
+}
+
+/* Styling for the input field */
+.input-field {
+  width: 100%;
+  max-width: 260px;
+  padding: 10px;
+  margin-bottom: 15px;
+  font-size: 16px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.input-field:focus {
+  border-color: #4CAF50;
+  box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+}
+
+/* Styling for the select field */
+select.input-field {
+  width: 100%;
+  max-width: 400px;
+  padding: 12px;
+  font-size: 16px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  background-color: #fff;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+select.input-field:focus {
+  border-color: #4CAF50;
+  box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+}
+
+/* Styling for the button */
+.add-money-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #4CAF50;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease,transform 0.2s ease;
+}
+
+.add-money-button:hover {
+  background-color: #45a049;
+  transform: scale(1.05);
+}
+
+.add-money-button:disabled,
 .add-money-button.disabled {
-    background-color: #ccc;  /* Greyed-out background */
-    cursor: not-allowed;  /* Prevents interaction */
-    opacity: 0.7;  /* Slight transparency */
-    transition: none;  /* No hover effects */
+  background-color: #ccc;
+  cursor: not-allowed;
+  opacity: 0.7;
+  transition: none;
 }
 
 /* Optional: Change text color when disabled */
 .add-money-button:disabled span {
-    color: #777;
+  color: #777;
 }
 
-  /* Success message style */
-  .success-message {
-    color: #4CAF50;
-    font-size: 16px;
-    margin: 10px 0px;
+/* Success message style */
+.success-message {
+  color: #4CAF50;
+  font-size: 16px;
+  margin: 15px 0;
+  font-weight: 500;
+}
+
+/* Error message style */
+.error-message {
+  color: #f44336;
+  font-size: 16px;
+  margin: 15px 0;
+  font-weight: 500;
+}
+
+/* Balance message style */
+.balance-message {
+  color: #333;
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 20px;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+/* Money transaction section styling */
+.money-transaction-section {
+  margin-top: 30px;
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Optional additional decoration */
+.add-money-container::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 6px;
+  background-color: #4CAF50;
+  top: 0;
+  left: 0;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+/* Optional box shadow on hover */
+.add-money-container:hover {
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* Adjust responsive layout */
+@media (max-width: 600px) {
+  .add-money-container {
+    padding: 1.5rem;
   }
-  
-  /* Error message style */
-  .error-message {
-    color: #f44336;
-    font-size: 16px;
-    margin: 10px 0px;
+
+  .money-header {
+    font-size: 24px;
   }
-  
-  /* Balance message style */
-  .balance-message {
-    color: #333;
-    font-size: 18px;
-    font-weight: bold;
-    margin-top: 20px;
+
+  .input-container {
+    gap: 15px;
   }
-  
+
+  .input-field,
+  .add-money-button {
+    width: 100%;
+    max-width: 100%;
+  }
+}

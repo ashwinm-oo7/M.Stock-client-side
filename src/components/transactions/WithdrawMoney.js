@@ -97,7 +97,7 @@ const WithdrawMoney = () => {
             setPaymentMethod(e.target.value);
             setAccountDetails(""); // Reset account details on method change
           }}
-          className="border p-2 w-full rounded"
+          className="input-box"
         >
           <option value="Bank Transfer">Bank Transfer</option>
           <option value="UPI">UPI</option>
@@ -109,7 +109,7 @@ const WithdrawMoney = () => {
           <select
             value={accountDetails}
             onChange={(e) => setAccountDetails(e.target.value)}
-            className="border p-2 w-full rounded"
+            className="input-box"
           >
             <option value="">Select a Bank Account</option>
             {bankAccounts.map((account) => (
@@ -131,8 +131,9 @@ const WithdrawMoney = () => {
             type="text"
             value={accountDetails}
             onChange={(e) => setAccountDetails(e.target.value)}
-            className="border p-2 w-full rounded"
+            className="input-box"
             placeholder="Enter your UPI ID"
+            style={{ width: "95%" }}
           />
         </div>
       )}

@@ -1,4 +1,3 @@
-// src/components/portfolio/PortfolioDashboard.js
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import {
@@ -89,24 +88,27 @@ const PortfolioDashboard = () => {
   }
 
   return (
-    <Container maxWidth="lg" sx={{ mt: 4 }}>
+    <Container
+      maxWidth="lg"
+      sx={{
+        mt: 4,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
       <Box
         sx={{
           display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
+          justifyContent: "center",
+          // alignItems: "center",
           mb: 4,
+          width: "100%",
         }}
       >
         <Typography variant="h4" gutterBottom>
           Portfolio Dashboard
         </Typography>
-        <Link to="/add-money-wallet" className="add-money-button">
-          Add Money
-        </Link>
-        <Link to="/withdraw-money" className="WithdrawMoney-money-button">
-          WithdrawMoney
-        </Link>
       </Box>
 
       {errorMessage && (
@@ -115,10 +117,37 @@ const PortfolioDashboard = () => {
         </Alert>
       )}
 
-      <Box sx={{ textAlign: "center", mb: 4 }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          width: "100%",
+          alignItems: "center",
+          mb: 4,
+        }}
+      >
         <Typography variant="h6" color="primary">
           Total Portfolio Value: ${portfolio?.totalValue?.toFixed(2) || "0.00"}
         </Typography>
+        <Box sx={{ display: "flex", gap: 2 }}>
+          <Link
+            to="/add-money-wallet"
+            className="add-money-button"
+            style={{ textDecoration: "none" }}
+          >
+            Add Money
+          </Link>
+          <Link
+            to="/withdraw-money"
+            className="WithdrawMoney-money-button"
+            style={{ textDecoration: "none" }}
+          >
+            Withdraw Money
+          </Link>
+        </Box>
+      </Box>
+
+      <Box sx={{ textAlign: "center", mb: 4, width: "100%" }}>
         <TextField
           fullWidth
           placeholder="Search by stock symbol..."
