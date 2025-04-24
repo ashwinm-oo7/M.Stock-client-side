@@ -111,7 +111,7 @@ const Register = () => {
         setOtpExpiry(false);
         setTimeout(() => {
           navigate("/login");
-        }, 20000);
+        }, 2000);
       }
     } catch (error) {
       setLoading(false);

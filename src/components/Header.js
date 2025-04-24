@@ -2,17 +2,21 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 // import { useUser } from "../context/UserContext"; // Make sure to import the hook
 import "../css/Header.css"; // Custom CSS for styling the header
+import { useUser } from "./auth/UserContext"; // Import the hook to use context
 
 const Header = ({ isAdmins, profilepic }) => {
   // const [error, setError] = useState("");
   const [isAdmin, setIsAdmin] = useState(false); // Error message state
+  const { user, logout } = useUser(); // Get user data from context
 
+  console.log(user);
   const navigate = useNavigate();
-  const user = JSON.parse(localStorage.getItem("user")) || null;
+  // const user = JSON.parse(localStorage.getItem("user")) || null;
 
   const handleLogout = () => {
     try {
       localStorage.clear(); // Securely clear all sensitive user data
+      logout();
       navigate("/login");
     } catch (error) {
       console.error("Logout failed:", error);
@@ -51,7 +55,7 @@ const Header = ({ isAdmins, profilepic }) => {
           <li>
             <Link to="/">Home</Link>
           </li>
-          {isAdmin && (
+          {user?.isAdmin && user?.isAdmin === true && (
             <li>
               <Link to="/add-data-stocks">AddStock</Link>
             </li>

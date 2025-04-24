@@ -49,9 +49,10 @@ const App = () => {
       const data = response.data;
       console.log(data);
       if (data.success) {
-        setIsAdmin(() => data?.user?.isAdmin || false); // ✅ Ensures correct state update
+        setIsAdmin(data?.user?.isAdmin); // ✅ Ensures correct state update
         setPics(data?.user?.profilePicBase64 || "");
         setUserID(data?.user?._id);
+        console.log("userdetails", data);
       } else {
         setIsAdmin(false);
       }
@@ -60,7 +61,6 @@ const App = () => {
       setIsAdmin(false);
     }
   };
-
   return (
     <Router>
       <Header isAdmins={isAdmin} profilepic={pics} />

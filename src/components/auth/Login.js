@@ -2,10 +2,13 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../../css/Login.css";
+import { useUser } from "../auth/UserContext"; // Import the hook to use the context
 
 // Create a UserContext to track login state
 
 const Login = () => {
+  const { user, login } = useUser(); // Get the user state and login function from context
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -79,10 +82,9 @@ const Login = () => {
         setTimeLeft(60);
         setCanResendOtp(false); // Reset resend OTP option
 
-        // const { token, user } = response.data;
         // localStorage.setItem("authToken", token); // Store token in local storage
 
-        // // navigate("/");
+        // navigate("/"); // Redirect to dashboard or another page after successful login
         // localStorage.setItem("user", JSON.stringify(user)); // Optionally store user info
         // localStorage.setItem("userId", user._id);
         // sessionStorage.setItem("user", JSON.stringify(user));
@@ -131,7 +133,7 @@ const Login = () => {
         const decodedToken = JSON.parse(atob(token.split(".")[1])); // Decode JWT payload
         const expirationTime = decodedToken.exp * 1000;
         // const expirationTime = Date.now() + 2 * 60 * 1000;
-
+        login(user);
         localStorage.setItem("authToken", token); // Store token in local storage
         localStorage.setItem("expiryTime", expirationTime); // Store expiry time
 
